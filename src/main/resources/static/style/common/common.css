@@ -1,0 +1,6 @@
+html, body {margin: 0px; height: 100%;}
+header {background: #686868; position:fixed; width: 100%; height: 25px; top: 0; left: 0;}
+aside {background: #ababab; min-height: 100%; width: 150px; float: left; margin-top: 25px;}
+section {background: rgb(245, 190, 97); height: 100%; display: inline-block; margin-top: 25px; width: calc(100% - 150px);}
+footer {background: rgb(0, 255, 64);  width: 100%; height:50px;}
+    
