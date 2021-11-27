@@ -39,9 +39,9 @@ public class WebConfig implements WebFluxConfigurer {
 	 * 정적 자원(Static Resources) 설정
 	 */
 	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**")
-            .addResourceLocations("/", "classpath:/static/")
-            .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS));
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**")
+			.addResourceLocations("/", "classpath:/static/")
+			.setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS));
     }
 }
