@@ -5,19 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 <link rel="stylesheet" href="/static/style/login.css" type="text/css"/>
+<script type="text/javascript" src="/static/script/common/jsencrypt.min.js"></script>
+<link rel="stylesheet"  type="text/css"/>
 <script type="text/javascript">
+
+// JSEncrypt
+const crypt = new JSEncrypt();
+
 window.addEventListener('DOMContentLoaded', function(event){
+	crypt.setPrivateKey("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoE4wR3nVncCEDxQF7Ev83Dkgcw6041L9eeBJMTohvrGe14h0kEJXAnHIEWGJy47FjTYtFJgm6UdzFTYx+xf4J9xY5XKd0u6sMJUgXAIeaIc4unmhpU615J+B9sFmlqnuPLonhQ8NIq3xZVVnVzuHQiXJxGi36dG6W/+9gPDHHblNV4UKHCTcN2XJn+kfZW/4wyzP89yUMFVhFtkjeZsRTDP02WFJQZxi9JA7wGBImzKsOMDilBtfXA/ZygN6wDxDR3h1q97p8BerGe1ms/fyrdvlI+tvlLtCDjaRA8Pd2glPZi2SJHMhAaMWi1jRmJ0KRmxQxezPiETdaYPUIuKTZwIDAQAB");
 	
 	// 로그인 버튼
-	login.addEventListener('click', function(event){
-		console.log("loginbtn")
-	});
-	
-	// 회원가입
-	join.addEventListener('click', function(event){
-		console.log("joinbtn")
-	});
+	login.addEventListener('click', loginProcess);	
 });
+
+/**
+ * 로그인 처리
+ */
+async function loginProcess(event){
+	let userId = crypt.encrypt(document.getElementById("userId").value);
+	let passwd = crypt.encrypt(document.getElementById("passwd").value);
+	
+	console.log(passwd);
+	
+	let response = await fetch("/login/loginProcess");
+}
 </script>
 </head>
 <body>
@@ -30,16 +42,15 @@ window.addEventListener('DOMContentLoaded', function(event){
                 <div class="login-input-container">
                     <div class="login-input-wrap input-id">
                         <i class="far fa-envelope"></i>
-                        <input id="id" placeholder="ID" type="text">
+                        <input id="userId" placeholder="ID" type="text">
                     </div>
                     <div class="login-input-wrap input-password">
                         <i class="fas fa-key"></i>
-                        <input placeholder="Password"  type="password">
+                        <input id="passwd" placeholder="Password"  type="password">
                     </div>
                 </div>
                 <div class="login-btn-wrap">
                     <button id="login" class="login-btn">Login</button>
-                    <a id="join" href="javascript:void(0);" >회원가입</a>
                 </div>
             </div>
         </div>
