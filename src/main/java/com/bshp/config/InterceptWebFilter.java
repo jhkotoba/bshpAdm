@@ -27,8 +27,11 @@ public class InterceptWebFilter implements WebFilter {
 			// 요청
 			ServerHttpRequest request = exchange.getRequest();
 			
-			// 로그인페이지
-			if("/login".equals(request.getPath().value())) {
+			// URL PATH
+			String path = request.getPath().value();
+			
+			// 로그인페이지 & 리소스
+			if("/login".equals(request.getPath().value()) || path.contains("/static") || path.contains("favicon.ico")) {
 				
 				return chain.filter(exchange);
 				

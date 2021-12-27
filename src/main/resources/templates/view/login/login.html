@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 <link rel="stylesheet" href="/static/style/login.css" type="text/css"/>
+<script type="module" src="/static/script/common/common.js"></script>
 <script type="text/javascript" src="/static/script/common/jsencrypt.min.js"></script>
-<link rel="stylesheet"  type="text/css"/>
 <script type="text/javascript">
 
 // JSEncrypt
 const crypt = new JSEncrypt();
 
 window.addEventListener('DOMContentLoaded', function(event){
-	crypt.setPrivateKey("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoE4wR3nVncCEDxQF7Ev83Dkgcw6041L9eeBJMTohvrGe14h0kEJXAnHIEWGJy47FjTYtFJgm6UdzFTYx+xf4J9xY5XKd0u6sMJUgXAIeaIc4unmhpU615J+B9sFmlqnuPLonhQ8NIq3xZVVnVzuHQiXJxGi36dG6W/+9gPDHHblNV4UKHCTcN2XJn+kfZW/4wyzP89yUMFVhFtkjeZsRTDP02WFJQZxi9JA7wGBImzKsOMDilBtfXA/ZygN6wDxDR3h1q97p8BerGe1ms/fyrdvlI+tvlLtCDjaRA8Pd2glPZi2SJHMhAaMWi1jRmJ0KRmxQxezPiETdaYPUIuKTZwIDAQAB");
+	crypt.setPublicKey(commonConstant.aes256.publicKey);
 	
 	// 로그인 버튼
 	login.addEventListener('click', loginProcess);	
@@ -25,8 +25,6 @@ window.addEventListener('DOMContentLoaded', function(event){
 async function loginProcess(event){
 	let userId = crypt.encrypt(document.getElementById("userId").value);
 	let passwd = crypt.encrypt(document.getElementById("passwd").value);
-	
-	console.log(passwd);
 	
 	let response = await fetch("/login/loginProcess");
 }
