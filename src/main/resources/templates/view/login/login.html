@@ -22,11 +22,25 @@ window.addEventListener('DOMContentLoaded', function(event){
 /**
  * 로그인 처리
  */
-async function loginProcess(event){
+function loginProcess(event){
 	let userId = crypt.encrypt(document.getElementById("userId").value);
-	let passwd = crypt.encrypt(document.getElementById("passwd").value);
-	
-	let response = await fetch("/login/loginProcess");
+	let pwd = crypt.encrypt(document.getElementById("passwd").value);
+		
+	fetch('/login/loginProcess', {
+        method: "POST",
+        mode: "same-origin",
+        credentials: "include",
+        headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+        },
+        body: JSON.stringify({userId, pwd})
+    })
+    .then(response => response.json())
+    .then(function(data){
+    	
+    	
+    });
 }
 </script>
 </head>
