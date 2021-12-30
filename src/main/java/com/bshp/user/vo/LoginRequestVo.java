@@ -1,20 +1,10 @@
-package com.bshp.login.vo;
+package com.bshp.user.vo;
 
 public class LoginRequestVo {
 	
-	private String userNo;
-	
 	private String userId;
 	
-	private String pwd;
-
-	public String getUserNo() {
-		return userNo;
-	}
-
-	public void setUserNo(String userNo) {
-		this.userNo = userNo;
-	}
+	private String pwd;	
 
 	public String getUserId() {
 		return userId;

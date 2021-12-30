@@ -1,4 +1,4 @@
-package com.bshp.login.controller;
+package com.bshp.user.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.result.view.Rendering;
 import org.springframework.web.server.WebSession;
 
-import com.bshp.login.service.LoginService;
-import com.bshp.login.vo.LoginRequestVo;
+import com.bshp.user.service.LoginService;
+import com.bshp.user.vo.LoginRequestVo;
+import com.bshp.user.vo.UserVo;
 
 import reactor.core.publisher.Mono;
 
@@ -39,10 +40,9 @@ public class LoginController {
 	 */
 	@ResponseBody
 	@PostMapping("/login/loginProcess")
-	public Mono<String> loginProcess(@RequestBody LoginRequestVo user, WebSession session){
+	public Mono<UserVo> loginProcess(@RequestBody LoginRequestVo user, WebSession session){
 			
 		return loginService.loginProcess(user);
-		//return Mono.empty();
 		
 	}
 	
