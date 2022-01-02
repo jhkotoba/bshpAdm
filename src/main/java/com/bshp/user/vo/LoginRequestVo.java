@@ -4,7 +4,7 @@ public class LoginRequestVo {
 	
 	private String userId;
 	
-	private String pwd;	
+	private String password;	
 
 	public String getUserId() {
 		return userId;
@@ -14,11 +14,11 @@ public class LoginRequestVo {
 		this.userId = userId;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

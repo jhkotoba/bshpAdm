@@ -1,4 +1,4 @@
-package com.bshp.common;
+package com.bshp.common.util;
 
 
 
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CommonUtil {
 
-	public static <T> T converterMapToVo(Map<String, Object> data, Class<T> clazz){
+	public static <T> T convertMapToVo(Map<String, Object> data, Class<T> clazz){
 		
 		T vo = null;
 		
