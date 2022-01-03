@@ -52,6 +52,11 @@ public class WebConfig implements WebFluxConfigurer {
 			.setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS));
     }
 	
+	/**
+	 * 레디스 설정
+	 * @param factory
+	 * @return
+	 */
 	@Bean
 	public ReactiveRedisOperations<String, String> redisOperations(ReactiveRedisConnectionFactory factory){
 		Jackson2JsonRedisSerializer<String> serializer = new Jackson2JsonRedisSerializer<>(String.class);

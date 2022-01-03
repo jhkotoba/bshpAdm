@@ -40,10 +40,12 @@ public class LoginController {
 	 */
 	@ResponseBody
 	@PostMapping("/login/loginProcess")
-	public Mono<UserVo> loginProcess(@RequestBody LoginRequestVo user, WebSession session){
+	public Mono<UserVo> loginProcess(@RequestBody LoginRequestVo user, WebSession session){		
 		
-		
-		return loginService.loginProcess(user);
+		return loginService.loginProcess(user)
+			.flatMap(isLogin -> {
+				return Mono.empty();
+			});
 		
 	}
 	

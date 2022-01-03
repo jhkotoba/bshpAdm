@@ -1,13 +1,13 @@
 package com.bshp.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bshp.common.property.AES256Properties;
 import com.bshp.common.util.AES256Util;
 import com.bshp.user.repository.LoginRepository;
 import com.bshp.user.vo.LoginRequestVo;
-import com.bshp.user.vo.UserVo;
 
 import reactor.core.publisher.Mono;
 
@@ -17,26 +17,30 @@ public class LoginService {
 	@Autowired
 	private LoginRepository loginRepository;
 	
-	@Value("${aes256.private-key}")
-	private String privateKey;
+	@Autowired
+	private AES256Properties aes256;
 	
 	/**
 	 * 로그인 처리
 	 * @param login
 	 * @return
 	 */
-	public Mono<UserVo> loginProcess(LoginRequestVo login){
+	public Mono<Boolean> loginProcess(LoginRequestVo login){
 		
-		String userId = AES256Util.decode(login.getUserId(), privateKey); 
-		String password = AES256Util.decode(login.getPassword(), privateKey);
+		String userId = AES256Util.decode(login.getUserId(), aes256.getPrivateKey()); 
+		String password = AES256Util.decode(login.getPassword(), aes256.getPrivateKey());
 		
-//		loginRepository.getLoginUser(userId).map(user -> {			
-//			BCrypt//			
-//			password   user.getPassword()//			
-//			boolean userCheck = BCrypt.checkpw(param.getString("passwd"), mainMapper.selectUserPasswd(param));//			
-//			return user;
-//		});
+		// 회원정보 조회
+		return loginRepository.getLoginUser(userId).flatMap(user -> {
+			
+			// 비밀번호 체크
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+			if(encoder.matches(password, user.getPassword())) {
+				return Mono.just(true);
+			}else {
+				return Mono.just(false);
+			}
+		});
 		
-		return Mono.empty();
 	}
 }

@@ -11,6 +11,8 @@ public class UserVo {
 	private String userId;
 	
 	private String password;
+	
+	private String salt;
 
 	public String getUserNo() {
 		return userNo;
@@ -35,15 +37,13 @@ public class UserVo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public UserVo(Map<String, Object> user) {
-		
-		try {
-			for (Field field : user.getClass().getDeclaredFields()) {			
-				field.set(user, user.get(field.getName()));
-			}
-		} catch (IllegalArgumentException | IllegalAccessException e) {		
-			e.printStackTrace();
-		}
+
+	public String getSalt() {
+		return salt;
 	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
 }
