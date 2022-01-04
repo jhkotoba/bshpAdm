@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', function(event){
  */
 function loginProcess(event){
 	let userId = crypt.encrypt(document.getElementById("userId").value);
-	let pwd = crypt.encrypt(document.getElementById("passwd").value);
+	let password = crypt.encrypt(document.getElementById("passwd").value);
 		
 	fetch('/login/loginProcess', {
         method: "POST",
@@ -34,11 +34,11 @@ function loginProcess(event){
                 "Accept": "application/json",
                 "Content-Type": "application/json"
         },
-        body: JSON.stringify({userId, pwd})
+        body: JSON.stringify({userId, password})
     })
-    .then(response => response.json())
+    .then(response => {console.log("response:", response); return response.json();})
     .then(function(data){
-    	
+    	console.log("data:", data);
     	
     });
 }

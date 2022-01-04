@@ -35,11 +35,7 @@ public class LoginService {
 			
 			// 비밀번호 체크
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-			if(encoder.matches(password, user.getPassword())) {
-				return Mono.just(true);
-			}else {
-				return Mono.just(false);
-			}
+			return Mono.just(encoder.matches(password, user.getPassword()));
 		});
 		
 	}

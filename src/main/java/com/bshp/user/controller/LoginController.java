@@ -1,6 +1,8 @@
 package com.bshp.user.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,13 +13,14 @@ import org.springframework.web.server.WebSession;
 
 import com.bshp.user.service.LoginService;
 import com.bshp.user.vo.LoginRequestVo;
-import com.bshp.user.vo.UserVo;
+import com.bshp.user.vo.LoginResponseVo;
 
 import reactor.core.publisher.Mono;
 
 @Controller
 public class LoginController {
 	
+	@Autowired
 	private LoginService loginService;
 
 	/**
@@ -40,11 +43,23 @@ public class LoginController {
 	 */
 	@ResponseBody
 	@PostMapping("/login/loginProcess")
-	public Mono<UserVo> loginProcess(@RequestBody LoginRequestVo user, WebSession session){		
+	public Mono<ResponseEntity<LoginResponseVo>> loginProcess(@RequestBody LoginRequestVo login, WebSession session){		
 		
-		return loginService.loginProcess(user)
+		return loginService.loginProcess(login)
 			.flatMap(isLogin -> {
-				return Mono.empty();
+				if(isLogin) {
+					
+					
+				}else {
+					
+					
+				}
+				
+				LoginResponseVo loginResponse = new LoginResponseVo();
+				ResponseEntity<LoginResponseVo> response = ResponseEntity.ok().body(loginResponse);
+				
+				
+				return Mono.defer(() -> Mono.just(response));
 			});
 		
 	}

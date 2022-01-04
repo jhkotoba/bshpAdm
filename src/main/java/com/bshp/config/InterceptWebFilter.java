@@ -36,7 +36,7 @@ public class InterceptWebFilter implements WebFilter {
 				return chain.filter(exchange);
 				
 			// 세션이 없는경우
-			}else if(session.getAttribute("SESSION") == null) {
+			}else if(session.getAttribute("BSHP_SESSION") == null) {
 				
 				session.getAttributes().put("error", "error");
                 response.setStatusCode(HttpStatus.SEE_OTHER);
