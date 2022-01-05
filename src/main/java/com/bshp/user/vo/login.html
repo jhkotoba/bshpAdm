@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="stylesheet" href="/static/style/login.css" type="text/css"/>
+<script type="module" src="/static/script/common/common.js"></script>
+<script type="text/javascript" src="/static/script/common/jsencrypt.min.js"></script>
+<script type="text/javascript">
+
+// JSEncrypt
+const crypt = new JSEncrypt();
+
+window.addEventListener('DOMContentLoaded', function(event){
+	crypt.setPublicKey(commonConstant.aes256.publicKey);
+	
+	// 로그인 버튼
+	login.addEventListener('click', loginProcess);	
+});
+
+/**
+ * 로그인 처리
+ */
+function loginProcess(event){
+	let userId = crypt.encrypt(document.getElementById("userId").value);
+	let password = crypt.encrypt(document.getElementById("passwd").value);
+		
+	fetch('/login/loginProcess', {
+        method: "POST",
+        mode: "same-origin",
+        credentials: "include",
+        headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+        },
+        body: JSON.stringify({userId, password})
+    })
+    .then(response => {console.log("response:", response); return response.json();})
+    .then(function(data){
+    	console.log("data:", data);
+    	
+    });
+}
+</script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="login-form-container shadow">
+            <div class="login-form">
+                <div>
+                	<h2>BSHP 관리자</h2>
+                </div>
+                <div class="login-input-container">
+                    <div class="login-input-wrap input-id">
+                        <i class="far fa-envelope"></i>
+                        <input id="userId" placeholder="ID" type="text">
+                    </div>
+                    <div class="login-input-wrap input-password">
+                        <i class="fas fa-key"></i>
+                        <input id="passwd" placeholder="Password"  type="password">
+                    </div>
+                </div>
+                <div class="login-btn-wrap">
+                    <button id="login" class="login-btn">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

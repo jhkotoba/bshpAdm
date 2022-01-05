@@ -1,10 +1,6 @@
 package com.bshp.user.vo;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
-
-public class UserVo {
+public class PrivateUserVo {
 
 	private String userNo;
 	
@@ -44,6 +40,21 @@ public class UserVo {
 
 	public void setSalt(String salt) {
 		this.salt = salt;
+	}
+	
+	public PublicUserVo createUserVo() {
+		PublicUserVo publicUserVo = new PublicUserVo();
+		publicUserVo.setUserId(this.userId);
+		publicUserVo.setUserNo(this.userNo);
+		return publicUserVo;
+	}
+	
+	public PublicUserVo createUserVo(boolean isLogin) {
+		PublicUserVo publicUserVo = new PublicUserVo();
+		publicUserVo.setUserId(this.userId);
+		publicUserVo.setUserNo(this.userNo);
+		publicUserVo.setLogin(isLogin);
+		return publicUserVo;
 	}
 
 }

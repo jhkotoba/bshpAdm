@@ -1,6 +1,7 @@
 package com.bshp.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import com.bshp.common.property.AES256Properties;
 import com.bshp.common.util.AES256Util;
 import com.bshp.user.repository.LoginRepository;
 import com.bshp.user.vo.LoginRequestVo;
+import com.bshp.user.vo.PublicUserVo;
 
 import reactor.core.publisher.Mono;
 
@@ -25,17 +27,18 @@ public class LoginService {
 	 * @param login
 	 * @return
 	 */
-	public Mono<Boolean> loginProcess(LoginRequestVo login){
+	public Mono<PublicUserVo> loginProcess(LoginRequestVo login){
 		
 		String userId = AES256Util.decode(login.getUserId(), aes256.getPrivateKey()); 
 		String password = AES256Util.decode(login.getPassword(), aes256.getPrivateKey());
 		
 		// 회원정보 조회
 		return loginRepository.getLoginUser(userId).flatMap(user -> {
-			
+						
 			// 비밀번호 체크
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-			return Mono.just(encoder.matches(password, user.getPassword()));
+			PublicUserVo pUser = user.createUserVo(encoder.matches(password, user.getPassword()));
+			return Mono.defer(() -> Mono.just(pUser));
 		});
 		
 	}

@@ -13,7 +13,7 @@ import org.springframework.web.server.WebSession;
 
 import com.bshp.user.service.LoginService;
 import com.bshp.user.vo.LoginRequestVo;
-import com.bshp.user.vo.LoginResponseVo;
+import com.bshp.user.vo.PublicUserVo;
 
 import reactor.core.publisher.Mono;
 
@@ -43,23 +43,19 @@ public class LoginController {
 	 */
 	@ResponseBody
 	@PostMapping("/login/loginProcess")
-	public Mono<ResponseEntity<LoginResponseVo>> loginProcess(@RequestBody LoginRequestVo login, WebSession session){		
-		
+	public Mono<ResponseEntity<PublicUserVo>> loginProcess(@RequestBody LoginRequestVo login, WebSession session){		
+				
+		// 회원체크
 		return loginService.loginProcess(login)
-			.flatMap(isLogin -> {
-				if(isLogin) {
-					
-					
+			.flatMap(pUser -> {
+				
+				if(pUser.isLogin()) {
+
 				}else {
-					
 					
 				}
 				
-				LoginResponseVo loginResponse = new LoginResponseVo();
-				ResponseEntity<LoginResponseVo> response = ResponseEntity.ok().body(loginResponse);
-				
-				
-				return Mono.defer(() -> Mono.just(response));
+				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(pUser)));
 			});
 		
 	}
