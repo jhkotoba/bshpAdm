@@ -1,5 +1,7 @@
 package com.bshp.user.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,19 +46,30 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping("/login/loginProcess")
 	public Mono<ResponseEntity<PublicUserVo>> loginProcess(@RequestBody LoginRequestVo login, WebSession session){		
-				
+		
+		PublicUserVo resultPUser = null;
+		
 		// 회원체크
-		return loginService.loginProcess(login)
-			.flatMap(pUser -> {
-				
-				if(pUser.isLogin()) {
-
-				}else {
+		try {
+			return loginService.loginProcess(login)
+				.flatMap(pUser -> {
 					
-				}
-				
-				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(pUser)));
-			});
+					if(pUser.isLogin()) {
+						session.start();
+						session.getAttributes().put("user", pUser);
+					}else {
+						session.invalidate();
+						session.getAttributes().remove("user");
+					}
+					return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(pUser)));
+				});
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(resultPUser)));
 		
 	}
 	

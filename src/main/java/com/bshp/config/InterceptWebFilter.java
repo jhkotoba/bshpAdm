@@ -31,12 +31,25 @@ public class InterceptWebFilter implements WebFilter {
 			String path = request.getPath().value();
 			
 			// 로그인페이지 & 리소스
-			if(path.contains("/login") || path.contains("/static") || path.contains("favicon.ico")) {
+			if(path.contains("/static") || path.contains("favicon.ico") ) {
 				
 				return chain.filter(exchange);
 				
+			}else if(path.contains("/login")) {
+				
+				if(session.getId() == null){
+			
+					return chain.filter(exchange);
+					
+				}else {
+					
+	                response.setStatusCode(HttpStatus.OK);
+	                response.getHeaders().add(HttpHeaders.LOCATION, "/");                
+	                return response.setComplete();
+				}				
+				
 			// 세션이 없는경우
-			}else if(session.getAttribute("BSHP_SESSION") == null) {
+			}else if(session.getId() == null) {
 				
 				session.getAttributes().put("error", "error");
                 response.setStatusCode(HttpStatus.SEE_OTHER);
