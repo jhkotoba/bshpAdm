@@ -1,7 +1,5 @@
 package com.bshp.user.controller;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.result.view.Rendering;
 import org.springframework.web.server.WebSession;
 
+import com.bshp.user.exception.LoginException;
 import com.bshp.user.service.LoginService;
 import com.bshp.user.vo.LoginRequestVo;
 import com.bshp.user.vo.PublicUserVo;
@@ -47,31 +46,30 @@ public class LoginController {
 	@PostMapping("/login/loginProcess")
 	public Mono<ResponseEntity<PublicUserVo>> loginProcess(@RequestBody LoginRequestVo login, WebSession session){		
 		
-		PublicUserVo resultPUser = null;
-		
 		// 회원체크
 		try {
 			return loginService.loginProcess(login)
 				.flatMap(pUser -> {
 					
+					// 세션정보 등록
 					if(pUser.isLogin()) {
 						session.start();
 						session.getAttributes().put("user", pUser);
 					}else {
-						session.invalidate();
-						session.getAttributes().remove("user");
+						throw new LoginException(LoginException.PASSWORD_DIFFERENT); 
 					}
+					
 					return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(pUser)));
 				});
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			
+		// 로그인 예외
+		} catch (LoginException e) {
+			
+			return Mono.error(e);
+		
+		// 시스템 오류
 		} catch (Exception e) {
-			e.printStackTrace();
+			return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null));
 		}
-		
-		return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(resultPUser)));
-		
 	}
-	
-	
 }

@@ -9,6 +9,8 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 
+import com.bshp.user.vo.PublicUserVo;
+
 import reactor.core.publisher.Mono;
 
 @Component
@@ -29,6 +31,7 @@ public class InterceptWebFilter implements WebFilter {
 			
 			// URL PATH
 			String path = request.getPath().value();
+			PublicUserVo user = (PublicUserVo) session.getAttributes().get("user");
 			
 			// 로그인페이지 & 리소스
 			if(path.contains("/static") || path.contains("favicon.ico") ) {
@@ -37,7 +40,7 @@ public class InterceptWebFilter implements WebFilter {
 				
 			}else if(path.contains("/login")) {
 				
-				if(session.getId() == null){
+				if(user == null){
 			
 					return chain.filter(exchange);
 					
@@ -49,7 +52,7 @@ public class InterceptWebFilter implements WebFilter {
 				}				
 				
 			// 세션이 없는경우
-			}else if(session.getId() == null) {
+			}else if(user == null) {
 				
 				session.getAttributes().put("error", "error");
                 response.setStatusCode(HttpStatus.SEE_OTHER);
