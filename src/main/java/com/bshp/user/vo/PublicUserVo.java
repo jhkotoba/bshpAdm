@@ -1,6 +1,10 @@
 package com.bshp.user.vo;
 
-public class PublicUserVo {
+import java.io.Serializable;
+
+public class PublicUserVo implements Serializable{
+
+	private static final long serialVersionUID = -5998929095997271676L;
 
 	private String userNo;
 	
