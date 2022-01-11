@@ -37,28 +37,22 @@ public class InterceptWebFilter implements WebFilter {
 			if(path.contains("/static") || path.contains("favicon.ico") ) {
 				
 				return chain.filter(exchange);
-				
+			// 로그인 페이지
 			}else if(path.contains("/login")) {
-				
+				// 세션정보가 없을경우
 				if(user == null){
-			
 					return chain.filter(exchange);
-					
+				// 세션이 있는데 로그인페이지 접근시
 				}else {
-					
-	                response.setStatusCode(HttpStatus.OK);
+	                response.setStatusCode(HttpStatus.SEE_OTHER);
 	                response.getHeaders().add(HttpHeaders.LOCATION, "/");                
 	                return response.setComplete();
-				}				
-				
-			// 세션이 없는경우
+				}
+			// 세션이 없는경우 로그인 페이지 이동
 			}else if(user == null) {
-				
-				session.getAttributes().put("error", "error");
                 response.setStatusCode(HttpStatus.SEE_OTHER);
                 response.getHeaders().add(HttpHeaders.LOCATION, "/login");                
                 return response.setComplete();
-            
             // 세션이 있는 경우
 			}else {
 				return chain.filter(exchange);

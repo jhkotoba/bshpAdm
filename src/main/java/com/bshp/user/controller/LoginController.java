@@ -1,5 +1,7 @@
 package com.bshp.user.controller;
 
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,20 +54,23 @@ public class LoginController {
 				.flatMap(pUser -> {
 					
 					// 세션정보 등록
-				if(pUser.isLogin()) {
+					if(pUser.isLogin()) {
+						// 세션시작
 						session.start();
+						// 세션 시간설정 
+						session.setMaxIdleTime(Duration.ofHours(3));
+						// 세션 유저정보 저장
 						session.getAttributes().put("user", pUser);
 					}else {
 						throw new LoginException(LoginException.PASSWORD_DIFFERENT); 
 					}
-					
+				
 					return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(pUser)));
 				});
 		
 		// 로그인 예외
 		} catch (LoginException e) {
-			
-			return Mono.error(e);
+			return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new PublicUserVo()));
 		
 		// 시스템 오류
 		} catch (Exception e) {
