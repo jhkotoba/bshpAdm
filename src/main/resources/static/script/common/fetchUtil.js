@@ -8,10 +8,10 @@ export const fetchUtil = {
 				cache: 'default',
 				credentials: 'same-origin',
 				headers: {
-            		'Content-Type': 'application/json',
-        		},
-        		redirect: 'follow',
-        		referrer: 'no-referrer',
+					'Content-Type': 'application/json',
+				},
+				redirect: 'follow',
+				referrer: 'no-referrer',
 			})
 			.then(response => response.json())
 			.then(data => resolve(data))
@@ -28,11 +28,11 @@ export const fetchUtil = {
 				cache: 'default',
 				credentials: 'same-origin',
 				headers: {
-            		'Content-Type': 'application/json',
-        		},
-        		redirect: 'follow',
-        		referrer: 'no-referrer',
-        		body: JSON.stringify(param.body)
+				'Content-Type': 'application/json',
+				},
+				redirect: 'follow',
+				referrer: 'no-referrer',
+				body: JSON.stringify(param.body)
 			})
 			.then(response => response.json())
 			.then(data => resolve(data))

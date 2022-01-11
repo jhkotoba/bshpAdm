@@ -44,16 +44,16 @@ public class InterceptWebFilter implements WebFilter {
 					return chain.filter(exchange);
 				// 세션이 있는데 로그인페이지 접근시
 				}else {
-	                response.setStatusCode(HttpStatus.SEE_OTHER);
-	                response.getHeaders().add(HttpHeaders.LOCATION, "/");                
-	                return response.setComplete();
+					response.setStatusCode(HttpStatus.SEE_OTHER);
+					response.getHeaders().add(HttpHeaders.LOCATION, "/");
+					return response.setComplete();
 				}
 			// 세션이 없는경우 로그인 페이지 이동
 			}else if(user == null) {
-                response.setStatusCode(HttpStatus.SEE_OTHER);
-                response.getHeaders().add(HttpHeaders.LOCATION, "/login");                
-                return response.setComplete();
-            // 세션이 있는 경우
+				response.setStatusCode(HttpStatus.SEE_OTHER);
+				response.getHeaders().add(HttpHeaders.LOCATION, "/login");
+				return response.setComplete();
+			// 세션이 있는 경우
 			}else {
 				return chain.filter(exchange);
 			}
