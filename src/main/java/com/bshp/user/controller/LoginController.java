@@ -52,7 +52,7 @@ public class LoginController {
 				.flatMap(pUser -> {
 					
 					// 세션정보 등록
-					if(pUser.isLogin()) {
+				if(pUser.isLogin()) {
 						session.start();
 						session.getAttributes().put("user", pUser);
 					}else {
@@ -61,7 +61,7 @@ public class LoginController {
 					
 					return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(pUser)));
 				});
-			
+		
 		// 로그인 예외
 		} catch (LoginException e) {
 			

@@ -1,5 +1,7 @@
 package com.bshp.config;
 
+import java.util.Map;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -31,7 +33,7 @@ public class InterceptWebFilter implements WebFilter {
 			
 			// URL PATH
 			String path = request.getPath().value();
-			PublicUserVo user = (PublicUserVo) session.getAttributes().get("user");
+			Map<String, Object> user = (Map<String, Object>) session.getAttributes().get("user");
 			
 			// 로그인페이지 & 리소스
 			if(path.contains("/static") || path.contains("favicon.ico") ) {
