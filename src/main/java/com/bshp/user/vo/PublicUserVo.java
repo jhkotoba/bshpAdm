@@ -2,6 +2,11 @@ package com.bshp.user.vo;
 
 import java.io.Serializable;
 
+/**
+ * 사용자 정보 객체(외부)
+ * @author JeHoon
+ *
+ */
 public class PublicUserVo implements Serializable{
 
 	private static final long serialVersionUID = -5998929095997271676L;
@@ -9,8 +14,6 @@ public class PublicUserVo implements Serializable{
 	private String userNo;
 	
 	private String userId;
-	
-	private boolean isLogin = false;
 
 	public String getUserNo() {
 		return userNo;
@@ -27,13 +30,4 @@ public class PublicUserVo implements Serializable{
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	public boolean isLogin() {
-		return isLogin;
-	}
-
-	public void setLogin(boolean isLogin) {
-		this.isLogin = isLogin;
-	}
-	
 }

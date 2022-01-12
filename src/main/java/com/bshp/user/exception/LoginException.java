@@ -5,19 +5,26 @@ public class LoginException extends RuntimeException{
 	
 	private static final long serialVersionUID = 9127113013477100538L;
 	
-	public static final String PASSWORD_DIFFERENT = "1000";
+	public enum reason {
+		
+		// 조회되는 아이디가 없음
+		ID_NOT_FOUND,
+		
+		// 비밀번호가 다른경우
+		PASSWORD_DIFFERENT
+	}
 	
-	private String code;
+	private reason reason;
 	
-	public LoginException(String code) {
-		this.code = code;
+	public LoginException(reason reason) {
+		this.reason = reason;
 	}
 
-	public String getCode() {
-		return code;
+	public reason getReason() {
+		return reason;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setReason(reason reason) {
+		this.reason = reason;
 	}
 }

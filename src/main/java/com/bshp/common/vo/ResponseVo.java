@@ -6,15 +6,7 @@ public class ResponseVo<T> {
 	
 	private String resultMessage;
 	
-	private T data;
-	
-	public ResponseVo() {}
-	
-	public ResponseVo(String resultCode, String resultMessage, T data) {
-		this.resultCode = resultCode;
-		this.resultMessage = resultMessage;
-		this.data = data;
-	}
+	protected T data;
 
 	public String getResultCode() {
 		return resultCode;
@@ -39,5 +31,4 @@ public class ResponseVo<T> {
 	public void setData(T data) {
 		this.data = data;
 	}
-	
 }

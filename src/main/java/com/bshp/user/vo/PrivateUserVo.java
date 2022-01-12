@@ -7,8 +7,6 @@ public class PrivateUserVo {
 	private String userId;
 	
 	private String password;
-	
-	private String salt;
 
 	public String getUserNo() {
 		return userNo;
@@ -33,28 +31,11 @@ public class PrivateUserVo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
 	
-	public PublicUserVo createUserVo() {
-		PublicUserVo publicUserVo = new PublicUserVo();
-		publicUserVo.setUserId(this.userId);
-		publicUserVo.setUserNo(this.userNo);
-		return publicUserVo;
+	public PublicUserVo createPublicUserVo() {
+		PublicUserVo user = new PublicUserVo();
+		user.setUserNo(userNo);
+		user.setUserId(userId);
+		return user;
 	}
-	
-	public PublicUserVo createUserVo(boolean isLogin) {
-		PublicUserVo publicUserVo = new PublicUserVo();
-		publicUserVo.setUserId(this.userId);
-		publicUserVo.setUserNo(this.userNo);
-		publicUserVo.setLogin(isLogin);
-		return publicUserVo;
-	}
-
 }

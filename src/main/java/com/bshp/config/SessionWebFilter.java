@@ -14,7 +14,7 @@ import com.bshp.user.vo.PublicUserVo;
 import reactor.core.publisher.Mono;
 
 @Component
-public class InterceptWebFilter implements WebFilter {
+public class SessionWebFilter implements WebFilter {
 
 	/**
 	 * 필터설정
