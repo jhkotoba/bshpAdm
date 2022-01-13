@@ -1,5 +1,6 @@
 package com.bshp.user.exception;
 
+import com.bshp.user.vo.LoginResponseVo;
 
 public class LoginException extends RuntimeException{
 	
@@ -16,6 +17,8 @@ public class LoginException extends RuntimeException{
 	
 	private reason reason;
 	
+	private LoginResponseVo loginResponseVo;
+	
 	public LoginException(reason reason) {
 		this.reason = reason;
 	}
@@ -26,5 +29,13 @@ public class LoginException extends RuntimeException{
 
 	public void setReason(reason reason) {
 		this.reason = reason;
+	}
+
+	public LoginResponseVo getLoginResponseVo() {
+		return loginResponseVo;
+	}
+
+	public void setLoginResponseVo(LoginResponseVo loginResponseVo) {
+		this.loginResponseVo = loginResponseVo;
 	}
 }

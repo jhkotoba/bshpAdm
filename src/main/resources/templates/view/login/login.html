@@ -26,18 +26,29 @@ function loginProcess(event){
 	let userId = crypt.encrypt(document.getElementById("userId").value);
 	let password = crypt.encrypt(document.getElementById("passwd").value);
 	
+	// 로딩바 표시
+	let blind = document.querySelector('.blind')
+	blind.classList.add('on');
+	
 	fetchUtil.post({
 		url: '/login/loginProcess',
 		body: {userId, password}
 	}).then(data => {
-		window.location.href = "/";
+		if(data.resultCode == 'SUCCESS'){
+			window.location.href = "/";	
+		}else{
+			alert(data.resultMessage);
+		}
 	}).catch(function(error){
 		alert("로그인에 실패하였습니다.");
+	}).finally(function(){
+		blind.classList.remove('on');
 	});
 }
 </script>
 </head>
 <body>
+	<div class="blind"><div class="loding"><img src="/static/image/floatingRays.svg"></div></div>
     <div class="page-container">
         <div class="login-form-container shadow">
             <div class="login-form">

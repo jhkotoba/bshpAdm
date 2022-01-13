@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.bshp.common.property.AES256Properties;
 import com.bshp.common.util.AES256Util;
+import com.bshp.user.exception.LoginException;
 import com.bshp.user.repository.LoginRepository;
 import com.bshp.user.vo.LoginRequestVo;
 import com.bshp.user.vo.LoginResponseVo;
@@ -29,7 +30,7 @@ public class LoginService {
 	 * @return
 	 * @throws NoSuchAlgorithmException 
 	 */
-	public Mono<LoginResponseVo> loginProcess(LoginRequestVo login) throws Exception{
+	public Mono<LoginResponseVo> loginProcess(LoginRequestVo login){
 		
 		// 사용자 아이디
 		String userId = AES256Util.decode(login.getUserId(), aes256.getPrivateKey());
@@ -45,20 +46,14 @@ public class LoginService {
 			// 인코더 생성
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
 			
-			// 조회되는 아이디가 없을 경우
-			if(user == null) {
-				response.setPublicUserVo(user, false);
 			// 로그인 성공
-			}else if(encoder.matches(password, user.getPassword())) {
+			if(encoder.matches(password, user.getPassword())) {
 				response.setPublicUserVo(user, true);
+				return  Mono.defer(() -> Mono.just(response));
 			// 패스워드가 일치하지 않을 경우
 			}else {
-				response.setPublicUserVo(user, false);				
+				return Mono.error(new LoginException(LoginException.reason.PASSWORD_DIFFERENT));
 			}
-			
-			// 결과 반환
-			return Mono.defer(() -> Mono.just(response));
-		});
-		
+		}).onErrorResume(LoginException.class, error -> Mono.error(error));
 	}
 }
