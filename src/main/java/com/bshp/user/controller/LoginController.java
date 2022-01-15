@@ -62,6 +62,10 @@ public class LoginController {
 					session.getAttributes().put("user", response.getData());
 				}
 				
+				// 응답코드 메시지 세팅
+				response.setResultCode(ResponseConstant.SUCCESS.toString());
+				response.setResultMessage(ResponseConstant.SUCCESS.name());
+				
 				// 로그인 처리 응답
 				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(response)));
 			
