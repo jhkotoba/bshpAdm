@@ -9,11 +9,14 @@
 <script type="text/javascript" src="/static/script/common/jsencrypt.min.js"></script>
 <script type="text/javascript">
 
-// JSEncrypt
+// 암호화 객체 생성
 const crypt = new JSEncrypt();
 
+// JSEncrypt
 window.addEventListener('DOMContentLoaded', function(event){
-	crypt.setPublicKey(commonConstant.aes256.publicKey);
+	
+	// 암호화 공개키 세팅
+	crypt.setPublicKey(constant.aes256.publicKey);
 	
 	// 로그인 버튼
 	login.addEventListener('click', loginProcess);	
