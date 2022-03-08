@@ -38,7 +38,7 @@ public class SessionWebFilter implements WebFilter {
 				
 				return chain.filter(exchange);
 			// 로그인 페이지
-			}else if(path.contains("/login")) {
+			}else if(path.contains("/login") || path.contains("/join")) {
 				// 세션정보가 없을경우
 				if(user == null){
 					return chain.filter(exchange);

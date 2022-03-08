@@ -42,6 +42,20 @@ public class LoginController {
 	}
 	
 	/**
+	 * 가입 페이지
+	 * @return
+	 */
+	@GetMapping("/join")
+	public Mono<Rendering> join(WebSession session){
+		
+		Rendering render = Rendering.view("view/login/join")
+			.status(HttpStatus.OK)
+			.build();
+		
+		return Mono.just(render);
+	}
+	
+	/**
 	 * 로그인 처리
 	 * @return
 	 */
