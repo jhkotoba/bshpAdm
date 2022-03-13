@@ -4,6 +4,23 @@ aside {background: #ababab; position:fixed; height: calc(100% - 25px); width: 15
 section {height: calc(100% - 25px); display: inline-block; margin-top: 25px; margin-bottom: 60px; width:100%;/* width: calc(100% - 150px); */}
 footer {background: #686868; position:fixed;  width: 100%; height:40px; bottom: 0; left: 0;}
 
-.content{background: #FFF; margin-top: 25px; margin-left: 20px; padding-bottom: 5px; padding-top: 5px; padding-left: 5px; width: calc(100% - 40px);}
-.title{margin-top: 25px;}
-.aside{margin-left: 180px; width: calc(100% - 220px);}  
+.aside{margin-left: 180px; width: calc(100% - 220px);}
+.title{background: #FFF; font-weight: 700; font-size: 20px; margin-top: 25px; margin-left: 20px; padding-bottom: 5px; padding-top: 5px; padding-left: 5px; padding-right: 5px; width: calc(100% - 40px);}
+.content{background: #FFF; margin-top: 25px; margin-left: 20px; padding-bottom: 5px; padding-top: 5px; padding-left: 5px; padding-right: 5px; width: calc(100% - 40px);}
+
+.sub-title{}
+.regist-table table{width: 100%;
+    border: 1px solid;
+    margin-top: 2px;}
+    
+.regist-table table tr{
+	height: 30px;
+}
+    
+.regist-table table th{
+	width: 150px;
+    text-align: left;
+}
+
+
+      
