@@ -8,6 +8,13 @@
 </head>
 <body>
 <section>
+<script type="text/javascript">
+window.addEventListener('DOMContentLoaded', function(event){
+	
+	// 취소
+	cancel.addEventListener('click', e => window.history.back());
+});
+</script>
 <div class="title">
 	<span>■ 가입신청</span>
 </div>
@@ -37,9 +44,9 @@
 			</tr>
 		</table>
 	</div>
-	<div class="button-group">
-		<button>취소</button>
-		<button>신청</button>
+	<div class="submit-box">
+		<button id="cancel">취소</button>
+		<button id="request" class="btn-black">신청</button>
 	</div>
 </div>
 </section>
