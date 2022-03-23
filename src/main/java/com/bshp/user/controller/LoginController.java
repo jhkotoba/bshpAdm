@@ -81,8 +81,8 @@ public class LoginController {
 					// 토큰 생성
 					String newCsrfToken = CommonUtil.getRandomString(20);
 					// CSRF 발행
-					session.getAttributes().put("csrfToken", newCsrfToken);
-					response.addCookie(ResponseCookie.from("csrfToken", newCsrfToken).maxAge(Duration.ofMinutes(30)).build());
+					session.getAttributes().put("CSRF_TOKEN", newCsrfToken);
+					response.addCookie(ResponseCookie.from("CSRF_TOKEN", newCsrfToken).maxAge(Duration.ofMinutes(30)).build());
 				}
 				
 				// 응답코드 메시지 세팅
