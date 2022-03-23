@@ -4,7 +4,9 @@ package com.bshp.common.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.Random;
 
 
 public class CommonUtil {
@@ -30,4 +32,24 @@ public class CommonUtil {
 		
 		return vo;
 	}
+	
+	public static String getRandomString(int length){ 
+
+        byte[] byteArray = new byte[256];
+        
+        new Random().nextBytes(byteArray); 
+
+        String string = new String(byteArray, Charset.forName("UTF-8"));
+        StringBuffer buffer = new StringBuffer(); 
+
+        for (int m = 0; m < string.length(); m++) { 
+
+            char n = string.charAt(m); 
+            if (((n >= 'A' && n <= 'Z') || (n >= '0' && n <= '9')) && (length > 0)) {
+            	buffer.append(n); 
+            	length--; 
+            } 
+        } 
+        return buffer.toString(); 
+    } 
 } 
