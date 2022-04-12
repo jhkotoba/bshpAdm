@@ -5,13 +5,15 @@
 	<meta charset="UTF-8"/>
 	<link rel="stylesheet" href="/static/style/common/common.css" type="text/css"/>
 	<script type="module" src="/static/script/common/common.js"></script>
+	<script type="text/javascript" src="/static/script/common/jsencrypt.min.js"></script>
 </head>
-<body>
-<section>
 <script type="text/javascript">
 //암호화 객체 생성
 const crypt = new JSEncrypt();
 window.addEventListener('DOMContentLoaded', function(event){
+	
+	// 암호화 공개키 세팅
+	crypt.setPublicKey(constant.aes256.publicKey);
 	
 	// 취소
 	cancel.addEventListener('click', e => window.history.back());
@@ -25,25 +27,43 @@ window.addEventListener('DOMContentLoaded', function(event){
  */
 function joinRequest(event){
 	
+	let adminId = crypt.encrypt(document.getElementById("adminId").value);
+	let password = crypt.encrypt(document.getElementById("passwd").value);
 	
+	fetchUtil.post({
+		url: '/join/joinRequest',
+		body: {adminId, password}
+	}).then(data => {
+		console.log(data);
+	}).catch(function(error){
+		alert("회원신청에 실패하였습니다.");
+	}).finally(function(){
+		blind.classList.remove('on');
+	});
 	
 	
 	
 }
 </script>
-<div class="title">
-	<span>■ 가입신청</span>
-</div>
-<div class="content">
-	<div class="sub-title">
-		<span>■ 회원정보</span>
+<body>
+<div class="blind"><div class="loding"><img src="/static/image/floatingRays.svg"></div></div>
+<section>
+<div class="content-box">
+	<div class="title">
+		<span class="text">가입신청</span>
 	</div>
 	<div class="regist-table">
 		<table>
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text">
+					<input type="text" id="adminId">
+				</td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td>
+					<input type="password" id="passwd">
 				</td>
 			</tr>
 			<tr>

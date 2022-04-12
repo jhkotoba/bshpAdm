@@ -1,7 +1,6 @@
 package com.bshp.config;
 
 import java.time.Duration;
-import java.util.Random;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 
 import com.bshp.common.util.CommonUtil;
-import com.bshp.user.vo.PublicUserVo;
+import com.bshp.user.vo.PublicAdminVo;
 
 import reactor.core.publisher.Mono;
 
@@ -36,7 +35,7 @@ public class SessionWebFilter implements WebFilter {
 
 			// URL PATH
 			String path = request.getPath().value();
-			PublicUserVo user = (PublicUserVo) session.getAttributes().get("user");
+			PublicAdminVo user = (PublicAdminVo) session.getAttributes().get("user");
 			
 			// 로그인페이지 & 리소스
 			if(path.contains("/static") || path.contains("favicon.ico") ) {
