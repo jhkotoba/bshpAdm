@@ -1,6 +1,11 @@
 export const fetchUtil = {
 
 	get: url => {
+		
+		// 로딩바 표시
+		let blind = document.querySelector('.blind')
+		blind.classList.add('on');
+		
 		return new Promise((resolve, reject) => {
 			fetch(url, {
 				method: 'GET',				
@@ -16,11 +21,16 @@ export const fetchUtil = {
 			.then(response => response.json())
 			.then(data => resolve(data))
 			.catch(error => reject(error))
-			.finally(() => console.log());
+			.finally(() => blind.classList.remove('on'));
 		})
 	},
 	
 	post: param => {
+		
+		// 로딩바 표시
+		let blind = document.querySelector('.blind')
+		blind.classList.add('on');
+		
 		return new Promise((resolve, reject) => {
 			fetch(param.url, {
 				method: 'POST',				
@@ -37,7 +47,7 @@ export const fetchUtil = {
 			.then(response => response.json())
 			.then(data => resolve(data))
 			.catch(error => reject(error))
-			.finally(() => console.log());
+			.finally(() => blind.classList.remove('on'));
 		})
 	}
 }
