@@ -25,16 +25,12 @@ window.addEventListener('DOMContentLoaded', function(event){
  * 로그인 처리
  */
 function loginProcess(event){
-	let userId = crypt.encrypt(document.getElementById("userId").value);
+	let adminId = crypt.encrypt(document.getElementById("adminId").value);
 	let password = crypt.encrypt(document.getElementById("passwd").value);
-	
-	// 로딩바 표시
-	let blind = document.querySelector('.blind')
-	blind.classList.add('on');
 	
 	fetchUtil.post({
 		url: '/login/loginProcess',
-		body: {userId, password}
+		body: {adminId, password}
 	}).then(data => {
 		if(data.resultCode == 'SUCCESS'){
 			window.location.href = "/";	
@@ -43,9 +39,7 @@ function loginProcess(event){
 		}
 	}).catch(function(error){
 		alert("로그인에 실패하였습니다.");
-	}).finally(function(){
-		blind.classList.remove('on');
-	});
+	})
 }
 </script>
 </head>
@@ -60,7 +54,7 @@ function loginProcess(event){
                 <div class="login-input-container">
                     <div class="login-input-wrap input-id">
                         <i class="far fa-envelope"></i>
-                        <input id="userId" placeholder="ID" type="text">
+                        <input id="adminId" placeholder="ID" type="text">
                     </div>
                     <div class="login-input-wrap input-password">
                         <i class="fas fa-key"></i>

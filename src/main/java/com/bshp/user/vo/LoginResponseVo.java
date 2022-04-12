@@ -7,7 +7,7 @@ import com.bshp.common.vo.ResponseVo;
  * @author JeHoon
  *
  */
-public class LoginResponseVo extends ResponseVo<PublicUserVo> {
+public class LoginResponseVo extends ResponseVo<PublicAdminVo> {
 	
 	// 로그인 여부
 	private boolean isLogin = false;
@@ -20,8 +20,8 @@ public class LoginResponseVo extends ResponseVo<PublicUserVo> {
 		this.isLogin = isLogin;
 	}
 
-	public void setPublicUserVo(PrivateUserVo user, boolean isLogin) {		
-		this.data = user.createPublicUserVo();
+	public void setPublicAdminVo(PrivateAdminVo user, boolean isLogin) {		
+		this.data = user.createPublicAdminVo();
 		this.isLogin = isLogin;
 	}		
 }

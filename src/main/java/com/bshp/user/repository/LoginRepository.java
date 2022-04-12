@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bshp.common.util.CommonUtil;
 import com.bshp.user.exception.LoginException;
-import com.bshp.user.vo.PrivateUserVo;
+import com.bshp.user.vo.PrivateAdminVo;
 
 import reactor.core.publisher.Mono;
 
@@ -19,17 +19,17 @@ public class LoginRepository{
 	}
 	
 	/**
-	 * 로그인 처리하기위한 회원조회
+	 * 로그인 처리하기위한 관리자조회
 	 * @param userId
 	 * @return
 	 */
-	public Mono<PrivateUserVo> getLoginUser(String userId){
+	public Mono<PrivateAdminVo> getLoginUser(String userId){
 		
-		StringBuilder qry = new StringBuilder("SELECT USER_ID, USER_NO, PASSWORD FROM ADMIN WHERE 1=1");
-		qry.append(" AND USER_ID = '").append(userId).append("'");
+		StringBuilder qry = new StringBuilder("SELECT ADMIN_NO AS adminNo, ADMIN_ID AS adminId, PASSWORD AS password FROM ADMIN WHERE 1=1");
+		qry.append(" AND ADMIN_ID = '").append(userId).append("'");
 		
 		return client.sql(() -> qry.toString()).fetch().one()			
-			.map(user -> CommonUtil.convertMapToVo(user, PrivateUserVo.class))
+			.map(user -> CommonUtil.convertMapToVo(user, PrivateAdminVo.class))
 			// 미조회 예외
 			.switchIfEmpty(Mono.error(new LoginException(LoginException.reason.ID_NOT_FOUND)));
 	}

@@ -32,23 +32,23 @@ public class LoginService {
 	 */
 	public Mono<LoginResponseVo> loginProcess(LoginRequestVo login){
 		
-		// 사용자 아이디
-		String userId = AES256Util.decode(login.getUserId(), aes256.getPrivateKey());
-		// 사용자 패스워드
+		// 관리자 아이디
+		String adminId = AES256Util.decode(login.getAdminId(), aes256.getPrivateKey());
+		// 관리자 패스워드
 		String password = AES256Util.decode(login.getPassword(), aes256.getPrivateKey());
 		
 		// 로그인 결과 객체
 		LoginResponseVo response = new LoginResponseVo();;
 		
 		// 회원정보 조회
-		return loginRepository.getLoginUser(userId).flatMap(user -> {
+		return loginRepository.getLoginUser(adminId).flatMap(user -> {
 			
 			// 인코더 생성
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
 			
 			// 로그인 성공
 			if(encoder.matches(password, user.getPassword())) {
-				response.setPublicUserVo(user, true);
+				response.setPublicAdminVo(user, true);
 				return  Mono.defer(() -> Mono.just(response));
 			// 패스워드가 일치하지 않을 경우
 			}else {

@@ -44,27 +44,19 @@ public class LoginController {
 		return Mono.just(render);
 	}
 	
-	/**
-	 * 가입 페이지
-	 * @return
-	 */
-	@GetMapping("/join")
-	public Mono<Rendering> join(WebSession session){
-		
-		Rendering render = Rendering.view("view/login/join")
-			.status(HttpStatus.OK)
-			.build();
-		
-		return Mono.just(render);
-	}
+
 	
 	/**
 	 * 로그인 처리
+	 * @param login
+	 * @param response
+	 * @param session
 	 * @return
 	 */
 	@ResponseBody
 	@PostMapping("/login/loginProcess")
-	public Mono<ResponseEntity<LoginResponseVo>> loginProcess(@RequestBody LoginRequestVo login, ServerHttpResponse response, WebSession session){		
+	public Mono<ResponseEntity<LoginResponseVo>> loginProcess(@RequestBody LoginRequestVo login
+			, ServerHttpResponse response, WebSession session){		
 		
 		return loginService.loginProcess(login)
 			.flatMap(responseVo -> {
@@ -114,4 +106,5 @@ public class LoginController {
 				return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));
 			});
 	}
+	
 }

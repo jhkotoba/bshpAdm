@@ -2,16 +2,16 @@ package com.bshp.user.vo;
 
 public class LoginRequestVo {
 	
-	private String userId;
+	private String adminId;
 	
 	private String password;	
 
-	public String getUserId() {
-		return userId;
+	public String getAdminId() {
+		return adminId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
 	}
 
 	public String getPassword() {
