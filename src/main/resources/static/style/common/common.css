@@ -1,11 +1,11 @@
-
+@font-face {font-family: 'NanumGothic'; src: url('././font/NanumGothic.eot'); src: url('././font/NanumGothic.eot') format('embedded-opentype'), url('././font/NanumGothic.woff') format('woff');}
 
 html, body {margin: 0px; background: #f7f7f7;}
 header {background: #686868; position:fixed; width: 100%; height: 25px; top: 0; left: 0;}
 aside {background: #ababab; position:fixed; height: calc(100% - 25px); width: 150px; float: left;}
 section {height: calc(100% - 25px); display: inline-block; margin-top: 25px; margin-bottom: 60px; width:100%;}
 footer {background: #686868; position:fixed;  width: 100%; height:40px; bottom: 0; left: 0;}
-body{color: #4C4C4C;}
+body{color: #4C4C4C; font-family: 'NanumGothic', 'serif';}
 
 
 .aside{margin-left: 180px; width: calc(100% - 220px);}
@@ -13,7 +13,7 @@ body{color: #4C4C4C;}
 .content-box{background: #ffffff; border-radius: 2.5px; margin-top: 25px; margin-left: 20px; padding-bottom: 5px; padding-top: 5px; padding-left: 5px; padding-right: 5px; width: calc(100% - 40px); box-shadow: 5px 10px 20px -2px rgb(175 175 175 / 30%)}
 
 .title{margin-bottom: 10px;}
-.title .text{font-weight:700; font-size: 22px;}
+.title .text{font-weight:700; font-size: 20px; color: #484848;}
 .regist-table table{width: 100%;
     border: 1px solid;
     margin-top: 2px;}
