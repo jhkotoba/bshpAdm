@@ -1,4 +1,4 @@
-@font-face {font-family: 'NanumGothic'; src: url('././font/NanumGothic.eot'); src: url('././font/NanumGothic.eot') format('embedded-opentype'), url('././font/NanumGothic.woff') format('woff');}
+@font-face {font-family: 'NanumGothic'; src: url('/static/font/NanumGothic.woff') format('woff');}
 *{padding: 0; margin: 0; box-sizing: border-box; font-family: 'NanumGothic', 'serif';}
 .page-container{width: 100vw; height: 100vh; background: #f7f7f7; display: flex; justify-content: center; align-items: center;}
 .shadow{box-shadow: 27px 43px 43px -26px rgb(175 175 175 / 30%);}
