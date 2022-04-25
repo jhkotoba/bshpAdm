@@ -49,18 +49,18 @@ function joinRequest(event){
 <body>
 <div class="blind"><div class="loding"><img src="/static/image/floatingRays.svg"></div></div>
 <section>
-<div class="content-box">
-	<div class="title">
-		<span class="text">■ 가입신청</span>
-	</div>
-	<div class="regist-table">
+<div class="content-box">		
+	<div class="regist-table center">
+		<div class="title">
+			<span class="text">■ 가입신청</span>
+		</div>
 		<table class="no-border">
 			<tr>
 				<th>아이디</th>
 			</tr>
 			<tr>
 				<td>
-					<input type="text" id="adminId">
+					<input type="text" id="adminId" maxlength="20">
 				</td>
 			</tr>
 			<tr>
@@ -68,7 +68,7 @@ function joinRequest(event){
 			</tr>
 			<tr>
 				<td>
-					<input type="password" id="passwd">
+					<input type="password" id="passwd" maxlength="20">
 				</td>
 			</tr>
 			<tr>
@@ -76,7 +76,12 @@ function joinRequest(event){
 			</tr>
 			<tr>
 				<td>
-					<input type="tel">
+					<div class="phone">
+						<input type="tel">
+						<input type="tel">
+						<input type="tel">	
+					</div>
+					
 				</td>
 			</tr>
 			<tr>

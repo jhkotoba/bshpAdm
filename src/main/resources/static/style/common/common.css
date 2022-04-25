@@ -1,6 +1,8 @@
+/* font*/
 @font-face {font-family: 'NanumGothic'; src: url('/static/font/NanumGothic.woff') format('woff');}
 @font-face {font-family: 'NanumGothicBold'; src: url('/static/font/NanumGothicBold.woff') format('woff');}
 
+/* common */
 html, body {margin: 0px; background: #f7f7f7;}
 header {background: #686868; position:fixed; width: 100%; height: 25px; top: 0; left: 0;}
 aside {background: #ababab; position:fixed; height: calc(100% - 25px); width: 150px; float: left;}
@@ -11,13 +13,19 @@ body{color: #4C4C4C; font-family: 'NanumGothic', 'serif';}
 
 .aside{margin-left: 180px; width: calc(100% - 220px);}
 .search-box{background: #ffffff; border-radius: 2.5px; font-weight: 700; font-size: 20px; margin-top: 25px; margin-left: 20px; padding-bottom: 5px; padding-top: 5px; padding-left: 5px; padding-right: 5px; width: calc(100% - 40px); box-shadow: 5px 5px 10px -2px rgb(175 175 175 / 30%)}
-.content-box{background: #ffffff; border-radius: 2.5px; margin-top: 25px; margin-left: 20px; padding-bottom: 5px; padding-top: 5px; padding-left: 5px; padding-right: 5px; width: calc(100% - 40px); box-shadow: 5px 10px 20px -2px rgb(175 175 175 / 30%)}
+.content-box{background: #ffffff; border-radius: 2.5px; margin-top: 25px; margin-left: 20px; padding-bottom: 5px; padding-top: 5px; padding-left: 5px; padding-right: 10px; width: calc(100% - 60px); box-shadow: 5px 10px 20px -2px rgb(175 175 175 / 30%)}
 
-.title{margin-top: 10px; margin-bottom: 10px;}
-.title .text{font-weight:700; font-size: 20px; color: #484848;}
+.center{text-align: center; width: 450px; margin: auto;}
+@media(max-width: 767px) { /* mobile */
+	.center{text-align:inherit; width: inherit; margin: inherit;}
+}
+
+
 .regist-table table{width: 100%; border: 1px solid; margin-top: 2px;}
 .regist-table table tr{height: 30px;}
 .regist-table table th{width: 150px; text-align: left;}
+.title{margin-top: 10px; margin-bottom: 10px;}
+.title .text{font-weight:700; font-size: 20px; color: #484848;}
 
 
 
@@ -27,6 +35,10 @@ table.no-border{border: 0px solid;}
 
 input{background: #ffffff; width: 100%; height: 30px; border: 1px solid #bdbdbd; border-radius: 2px; text-indent: 5px;}
 input:disabled{background: #e5e5e5;}
+.phone{display: flex;}
+.phone input{}
+.phone input:first-child{float: left; margin-right: 1px;}
+.phone input:last-child{float: right; margin-left: 1px;}
 
 
 .button-box{margin-top: 5px;
@@ -39,9 +51,9 @@ input:disabled{background: #e5e5e5;}
 
 .submit-box{margin-top: 25px; margin-bottom: 5px; text-align: center;}
 .submit-box button{width: 100px; height: 40px;}
-@media(max-width: 767px ) {
+@media(max-width: 767px ) { /* mobile */
 	.submit-box{display: flex; align-content: stretch;}
-	.submit-box button{width: 100%; height: 50px;}
+	.submit-box button{width: 100%; height: 50px; margin-left: 1px; margin-right: 1px;}
 }
 
 
