@@ -41,6 +41,9 @@ input:disabled{background: #e5e5e5;}
 /* .phone input:nth-child(2){width: calc(40% - 50px);}
 .phone input:last-child{width: calc(40% - 50px)} */
 
+.input-check-box {text-align: left; display: none;}
+.input-check-box.on {display: block;}
+.input-check-box span{color: red; font-size: 12px;}
 
 .button-box{margin-top: 5px;
     margin-bottom: 5px;}

@@ -9,44 +9,6 @@
 	<script type="text/javascript" src="/static/script/common/jsencrypt.min.js"></script>
 	<script type="module" src="/static/script/login/join.js"></script>
 </head>
-<!-- <script type="text/javascript">
-//암호화 객체 생성
-const crypt = new JSEncrypt();
-window.addEventListener('DOMContentLoaded', function(event){
-	
-	// 암호화 공개키 세팅
-	crypt.setPublicKey(constant.aes256.publicKey);
-	
-	// 취소
-	cancel.addEventListener('click', e => window.history.back());
-	
-	// 가입신청
-	request.addEventListener('click', joinRequest);
-});
-
-/**
- * 가입신청
- */
-function joinRequest(event){
-	
-	let adminId = crypt.encrypt(document.getElementById("adminId").value);
-	let password = crypt.encrypt(document.getElementById("passwd").value);
-	
-	fetchUtil.post({
-		url: '/join/joinRequest',
-		body: {adminId, password}
-	}).then(data => {
-		console.log(data);
-	}).catch(function(error){
-		alert("회원신청에 실패하였습니다.");
-	}).finally(function(){
-		blind.classList.remove('on');
-	});
-	
-	
-	
-}
-</script> -->
 <body>
 <div class="blind"><div class="loding"><img src="/static/image/floatingRays.svg"></div></div>
 <section>
@@ -73,11 +35,11 @@ function joinRequest(event){
 				</td>
 			</tr>
 			<tr>
-				<th>전화번호</th>
+				<th>핸드폰번호</th>
 			</tr>
 			<tr>
 				<td>
-					<input type="tel" id="phone" maxlength="20">
+					<input type="tel" id="phone" maxlength="13">
 				</td>
 			</tr>
 			<tr>
@@ -85,7 +47,7 @@ function joinRequest(event){
 			</tr>
 			<tr>
 				<td>
-					<input type="email">
+					<input type="email" maxlength="100">
 				</td>
 			</tr>
 		</table>
