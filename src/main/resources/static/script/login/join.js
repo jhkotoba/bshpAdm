@@ -1,5 +1,5 @@
 import { constant } from "/static/script/common/constant.js";
-import { phoneFormat } from "/static/script/common/stringUtil.js";
+import { onlyEnTextAndNumber, onlyNumber, phoneFormat } from "/static/script/common/stringUtil.js";
 import { postFetch } from "/static/script/common/fetchUtil.js";
 
 //암호화 객체 생성
@@ -15,8 +15,12 @@ window.addEventListener('DOMContentLoaded', function(){
 	// 가입신청
 	request.addEventListener('click', joinRequest);
 	
+	// 아이디 문자
+	adminId.addEventListener('keyup', e => e.target.value = onlyEnTextAndNumber(e.target.value));
+	
 	// 핸드폰번호 포멧
-	phone.addEventListener('keypress', e => e.target.value = phoneFormat(e.target.value));
+	phone.addEventListener('focusin', e => e.target.value = onlyNumber(e.target.value));
+	phone.addEventListener('focusout', e => e.target.value = phoneFormat(e.target.value));
 });
 
 /**
@@ -26,10 +30,12 @@ function joinRequest(){
 	
 	let adminId = crypt.encrypt(document.getElementById("adminId").value);
 	let password = crypt.encrypt(document.getElementById("passwd").value);
+	let phone = crypt.encrypt(document.getElementById("phone").value);
+	let email = crypt.encrypt(document.getElementById("email").value);
 	
 	postFetch({
 		url: '/join/joinRequest',
-		body: {adminId, password}
+		body: {adminId, password, phone, email}
 	}).then(data => {
 		console.log(data);
 	}).catch(function(error){
