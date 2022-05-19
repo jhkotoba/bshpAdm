@@ -19,6 +19,7 @@ window.addEventListener('DOMContentLoaded', function(){
 	adminId.addEventListener('keyup', e => e.target.value = onlyEnTextAndNumber(e.target.value));
 	
 	// 핸드폰번호 포멧
+	phone.addEventListener('keyup', e => e.target.value = onlyNumber(e.target.value));
 	phone.addEventListener('focusin', e => e.target.value = onlyNumber(e.target.value));
 	phone.addEventListener('focusout', e => e.target.value = phoneFormat(e.target.value));
 });
