@@ -1,5 +1,6 @@
 import { constant } from "/static/script/common/constant.js";
-import { onlyEnTextAndNumber, onlyNumber, phoneFormat } from "/static/script/common/stringUtil.js";
+import { fmtOnlyEnTextAndNumber, fmtOnlyNumber, fmtPhone } from "/static/script/common/stringUtil.js";
+import { isEmpty, isPhone, isEmail } from "/static/script/common/validationUtil.js";
 import { postFetch } from "/static/script/common/fetchUtil.js";
 
 //암호화 객체 생성
@@ -16,31 +17,67 @@ window.addEventListener('DOMContentLoaded', function(){
 	request.addEventListener('click', joinRequest);
 	
 	// 아이디 문자
-	adminId.addEventListener('keyup', e => e.target.value = onlyEnTextAndNumber(e.target.value));
+	adminId.addEventListener('keyup', e => e.target.value = fmtOnlyEnTextAndNumber(e.target.value));
 	
 	// 핸드폰번호 포멧
-	phone.addEventListener('keyup', e => e.target.value = onlyNumber(e.target.value));
-	phone.addEventListener('focusin', e => e.target.value = onlyNumber(e.target.value));
-	phone.addEventListener('focusout', e => e.target.value = phoneFormat(e.target.value));
+	phone.addEventListener('keyup', e => e.target.value = fmtOnlyNumber(e.target.value));
+	phone.addEventListener('focusin', e => e.target.value = fmtOnlyNumber(e.target.value));
+	phone.addEventListener('focusout', e => e.target.value = fmtPhone(e.target.value));
 });
+
+/**
+ * 유효성 검사
+ */
+function joinValidation(params){
+	
+	// 빈값 체크
+	for(var key in params){
+    	if(isEmpty(params[key])){
+			return false;
+		}
+	}
+	
+	// 전화번호 체크
+	if(isPhone(params.phone) == false) return false; 
+	
+	// 이메일 체크
+	if(isEmail(params.email) == false) return false;
+	
+	return true;
+}
 
 /**
  * 가입신청
  */
 function joinRequest(){
 	
-	let adminId = crypt.encrypt(document.getElementById("adminId").value);
-	let password = crypt.encrypt(document.getElementById("passwd").value);
-	let phone = crypt.encrypt(document.getElementById("phone").value);
-	let email = crypt.encrypt(document.getElementById("email").value);
+	// 전송할 파라미터
+	let params = {
+		adminId : crypt.encrypt(document.getElementById("adminId").value),
+		password : crypt.encrypt(document.getElementById("passwd").value),
+		phone : crypt.encrypt(document.getElementById("phone").value),
+		email : crypt.encrypt(document.getElementById("[.],").value)
+	}
 	
+	// 유효성 검사
+	if(joinValidation(params) == false){
+		return;
+	}
+	
+	// 회원신청
 	postFetch({
 		url: '/join/joinRequest',
-		body: {adminId, password, phone, email}
+		body: params
 	}).then(data => {
-		console.log(data);
+		switch(data.resultCode){
+		case "0000" :
+			break;
+		case "9999" :
+			break;
+		default :
+			break;
+		}
 	}).catch(function(error){
-		console.error(error);
 		alert("회원신청에 실패하였습니다.");
 	});
 }

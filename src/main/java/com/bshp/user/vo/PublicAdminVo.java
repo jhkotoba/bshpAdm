@@ -14,6 +14,12 @@ public class PublicAdminVo implements Serializable{
 	private String adminNo;
 	
 	private String adminId;
+	
+	private String phone;
+	
+	private String email;
+	
+	private String useYn;
 
 	public String getAdminNo() {
 		return adminNo;
@@ -31,4 +37,27 @@ public class PublicAdminVo implements Serializable{
 		this.adminId = adminId;
 	}
 	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUseYn() {
+		return useYn;
+	}
+
+	public void setUseYn(String useYn) {
+		this.useYn = useYn;
+	}
 }
