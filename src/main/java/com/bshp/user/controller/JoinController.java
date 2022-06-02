@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.result.view.Rendering;
 import org.springframework.web.server.WebSession;
 
+import com.bshp.common.constant.ResponseConstant;
 import com.bshp.common.vo.ResponseVo;
-import com.bshp.user.repository.AdminRepository;
+import com.bshp.user.exception.JoinException;
 import com.bshp.user.service.AdminService;
 import com.bshp.user.service.JoinService;
 import com.bshp.user.vo.AdminRequestVo;
@@ -52,108 +53,57 @@ public class JoinController {
 	 */
 	@ResponseBody
 	@PostMapping("/join/joinRequest")
-	public Mono<ResponseEntity<Integer>> joinRequest(@RequestBody AdminRequestVo join
+	public Mono<ResponseEntity<ResponseVo<Void>>> joinRequest(@RequestBody AdminRequestVo join
 			, ServerHttpResponse response){
+		
+		// 응답할 객체
+		ResponseVo<Void> responseVo = new ResponseVo<Void>();
 		
 		// 아이디, 암호 복호화
 		adminService.adminDecode(join);
 		
+		// 아이디 체크
 		return adminService.isAdmin(join.getAdminId())
+			// 등록하려는 아이디가 존재하는지 확인
 			.flatMap(isAdm -> {
 				if(isAdm) {
-					return Mono.error(new Exception("ADMIN ERR"));
+					// 등록하려는 아이디가 존재함
+					return Mono.error(new JoinException(JoinException.reason.ID_ALREADY_EXIST));
 				}else {
+					// 등록 처리
 					return joinService.joinRequest(join);
 				}
-			}).flatMap(f -> {
+			}).flatMap(rowUptCnt -> {
 				
-				return Mono.empty();
+				if(rowUptCnt > 0) {
+					// 응답코드 메시지 세팅
+					responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
+					responseVo.setResultMessage(ResponseConstant.SUCCESS.name());
+					return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));					
+				}else {
+					// 등록실패
+					return Mono.error(new JoinException(JoinException.reason.INSERT_FAIL));
+				}
+				
+			// 정의된 예외 처리
+			}).onErrorResume(JoinException.class, error -> {
+				
+				// 응답코드 메시지 세팅
+				responseVo.setResultCode(error.getReason().name());
+				responseVo.setResultMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
+				
+				// 응답
+				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
+				
+			// 오류처리
+			}).onErrorResume(error -> {
+				
+				// 응답코드 메시지 세팅
+				responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
+				responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
+				
+				// 시스템 오류
+				return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));
 			});
-		
-		
-//		flatMap(f -> {
-//			ResponseVo<Integer> res = new ResponseVo<Integer>();
-//			res.setData(f);
-//			return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(res)));
-//		}).onErrorResume(error -> {
-//			
-//			// 시스템 오류
-//			return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null));
-//		});
-		
-		
-		
-		
-		// 아이디, 암호 복호화
-//		Mono.just(join).map(admin -> {
-//			adminService.adminDecode(admin);
-//			return adminService.isAdmin(admin.getAdminId());
-//		}).flatMap(isAdmin -> {
-//			if(isAdmin) {
-//				
-//			}
-//			
-//		});
-			
-		
-		
-		//adminService.isAdmin(join.getAdminId())
-			
-			
-		
-		
-//		Mono<Integer> result = adminService.adminDecode(join)
-//			.map(admin -> adminService.isAdmin(admin.getAdminId())
-//				.flatMap(isAdmin -> {
-//					if(isAdmin) {
-//						return Mono.error(new Exception("NOT ADMIN"));
-//					}else {
-//						return joinService.joinRequest(join);
-//					}
-//				})
-//			).flatMap(map -> {
-//								
-//				
-//			});
-		
-		
-		
-		
-		
-//			.flatMap(isAdmin ->  {
-//				
-//				
-//				
-//				if(isAdmin) {
-//					return Mono.error(new Exception("NOT ADMIN"));
-//				}else {
-//					return joinService.joinRequest(join);
-//					
-//				}
-//			});
-		
-//		return Mono.empty();
-			
-
-
-			
-		
-		
-//		return joinService.joinRequest(join).flatMap(f -> {
-//			
-//			return Mono.empty();
-//			
-//		});
-		
-		
-//		return joinService.joinRequest(join).map(f -> {
-//			ResponseVo<Integer> res = new ResponseVo<Integer>();
-//			res.setData(f);
-//			return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(res)));
-//		}).onErrorResume(error -> {
-//			
-//			// 시스템 오류
-//			return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null));
-//		});
 	}
 }

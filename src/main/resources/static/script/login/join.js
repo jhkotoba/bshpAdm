@@ -51,12 +51,14 @@ function joinValidation(params){
  */
 function joinRequest(){
 	
+	
+	
 	// 전송할 파라미터
 	let params = {
-		adminId : crypt.encrypt(document.getElementById("adminId").value),
-		password : crypt.encrypt(document.getElementById("passwd").value),
-		phone : crypt.encrypt(document.getElementById("phone").value),
-		email : crypt.encrypt(document.getElementById("[.],").value)
+		adminId : document.getElementById("adminId").value,
+		password : document.getElementById("passwd").value,
+		phone : document.getElementById("phone").value,
+		email : document.getElementById("email").value
 	}
 	
 	// 유효성 검사
@@ -64,11 +66,16 @@ function joinRequest(){
 		return;
 	}
 	
+	// 암호화
+	params.adminId = crypt.encrypt(params.adminId);
+	params.password = crypt.encrypt(params.password);
+	
 	// 회원신청
 	postFetch({
 		url: '/join/joinRequest',
 		body: params
 	}).then(data => {
+		console.log(data);
 		switch(data.resultCode){
 		case "0000" :
 			break;
@@ -78,6 +85,7 @@ function joinRequest(){
 			break;
 		}
 	}).catch(function(error){
+		console.error(error);
 		alert("회원신청에 실패하였습니다.");
 	});
 }
