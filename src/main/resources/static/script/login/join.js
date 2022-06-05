@@ -44,11 +44,19 @@ function joinValidation(params){
 		}
 	}
 	
+	// 비밀번호 확인
+	let confirm = document.getElementById("confirm").value;
+	if(params.password !== confirm){
+		alert("비밀번호가 일치하지 않습니다.");
+		document.getElementById("password").focus();
+		return false;	
+	}
+	
 	// 비밀번호 체크
 	if(isPassword(params.password) == false){
 		alert("비밀번호가 올바르지 않습니다. \n (8~20자리, 영문, 숫자 포합되어야 합니다.)");
-		document.getElementById("phone").focus();
-		return false;	
+		document.getElementById("password").focus();
+		return false;
 	}
 	
 	// 전화번호 체크

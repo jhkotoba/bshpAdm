@@ -5,43 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 <link rel="stylesheet" href="/static/style/login.css" type="text/css"/>
-<script type="module" src="/static/script/common/common.js"></script>
 <script type="text/javascript" src="/static/script/common/jsencrypt.min.js"></script>
-<script type="text/javascript">
-
-// 암호화 객체 생성
-const crypt = new JSEncrypt();
-window.addEventListener('DOMContentLoaded', function(event){
-	
-	// 암호화 공개키 세팅
-	crypt.setPublicKey(constant.aes256.publicKey);
-	
-	// 로그인 버튼
-	login.addEventListener('click', loginProcess);
-	passwd.addEventListener('keyup', event => event.keyCode === 13 ? loginProcess(event) : null)
-});
-
-/**
- * 로그인 처리
- */
-function loginProcess(event){
-	let adminId = crypt.encrypt(document.getElementById("adminId").value);
-	let password = crypt.encrypt(document.getElementById("passwd").value);
-	
-	fetchUtil.post({
-		url: '/login/loginProcess',
-		body: {adminId, password}
-	}).then(data => {
-		if(data.resultCode == 'SUCCESS'){
-			window.location.href = "/";	
-		}else{
-			alert(data.resultMessage);
-		}
-	}).catch(function(error){
-		alert("로그인에 실패하였습니다.");
-	})
-}
-</script>
+<script type="module" src="/static/script/login/login.js"></script>
 </head>
 <body>
 	<div class="blind"><div class="loding"><img src="/static/image/floatingRays.svg"></div></div>
@@ -58,7 +23,7 @@ function loginProcess(event){
                     </div>
                     <div class="login-input-wrap input-password">
                         <i class="fas fa-key"></i>
-                        <input id="passwd" placeholder="Password"  type="password">
+                        <input id="password" placeholder="Password"  type="password">
                     </div>
                 </div>
                 <div class="login-btn-wrap">
