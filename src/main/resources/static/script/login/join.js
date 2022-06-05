@@ -1,6 +1,6 @@
 import { constant } from "/static/script/common/constant.js";
 import { fmtOnlyEnTextAndNumber, fmtOnlyNumber, fmtPhone } from "/static/script/common/stringUtil.js";
-import { isEmpty, isPhone, isEmail } from "/static/script/common/validationUtil.js";
+import { isEmpty, isPassword, isPhone, isEmail } from "/static/script/common/validationUtil.js";
 import { postFetch } from "/static/script/common/fetchUtil.js";
 
 //암호화 객체 생성
@@ -30,18 +30,40 @@ window.addEventListener('DOMContentLoaded', function(){
  */
 function joinValidation(params){
 	
+	// 타겟명
+	let paramName = {
+		adminId : "아이디", password : "비밀번호", phone : "전화번호", email : "이메일"
+	}
+		
 	// 빈값 체크
-	for(var key in params){
+	for(let key in params){
     	if(isEmpty(params[key])){
+			alert(paramName[key] + "을(를) 입력해주십시오.");
+			document.getElementById(key).focus();
 			return false;
 		}
 	}
 	
+	// 비밀번호 체크
+	if(isPassword(params.password) == false){
+		alert("비밀번호가 올바르지 않습니다. \n (8~20자리, 영문, 숫자 포합되어야 합니다.)");
+		document.getElementById("phone").focus();
+		return false;	
+	}
+	
 	// 전화번호 체크
-	if(isPhone(params.phone) == false) return false; 
+	if(isPhone(params.phone) == false) {
+		alert("전화번호가 올바르지 않습니다.");
+		document.getElementById("phone").focus();
+		return false;	
+	} 
 	
 	// 이메일 체크
-	if(isEmail(params.email) == false) return false;
+	if(isEmail(params.email) == false){
+		alert("이메일이 올바르지 않습니다.");
+		document.getElementById("email").focus();
+		return false;
+	} 
 	
 	return true;
 }
@@ -54,7 +76,7 @@ function joinRequest(){
 	// 전송할 파라미터
 	let params = {
 		adminId : document.getElementById("adminId").value,
-		password : document.getElementById("passwd").value,
+		password : document.getElementById("password").value,
 		phone : document.getElementById("phone").value,
 		email : document.getElementById("email").value
 	}
@@ -67,6 +89,8 @@ function joinRequest(){
 	// 암호화
 	params.adminId = crypt.encrypt(params.adminId);
 	params.password = crypt.encrypt(params.password);
+	// 전화번호 하이픈 제거
+	params.phone = fmtOnlyNumber(params.phone);
 	
 	// 회원신청
 	postFetch({

@@ -9,6 +9,9 @@ public class JoinException extends RuntimeException{
 		// 등록하려는 아이디가 존재함
 		ID_ALREADY_EXIST,
 		
+		// 잘못된 비밀번호
+		INCORRECT_PASSWORD,
+		
 		// 잘못된 전화번호 
 		INCORRECT_PHONE,
 				

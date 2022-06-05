@@ -1,5 +1,8 @@
 package com.bshp.common.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +19,21 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public boolean isEmpty(String value) {
-		return true;
+		if(value == null || "".equals(value.trim())) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	/**
+	 * 비밀번호 체크(8~20자리, 영문,숫자 특수문자 조합)
+	 * @param value
+	 * @return
+	 */
+	public boolean isPassword(String value) {
+		Matcher match = Pattern.compile("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,16}$").matcher(value);
+		return match.find();		 
 	}
 	
 	/**
@@ -24,8 +41,12 @@ public class ValidationUtil {
 	 * @param value
 	 * @return
 	 */
-	public boolean isPhone(String value) {
-		return true;
+	public boolean isPhone(String value) {		
+		if(value.length() > 8 && value.length() < 12 && value.matches("[+-]?\\d*(\\.\\d+)?")) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	/**
@@ -34,7 +55,11 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public boolean isEmail(String value) {
-		return true;
+		if(value.length() <= 50 && value.matches("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 } 
