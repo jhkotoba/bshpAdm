@@ -51,8 +51,6 @@ function joinValidation(params){
  */
 function joinRequest(){
 	
-	
-	
 	// 전송할 파라미터
 	let params = {
 		adminId : document.getElementById("adminId").value,
@@ -75,17 +73,14 @@ function joinRequest(){
 		url: '/join/joinRequest',
 		body: params
 	}).then(data => {
-		console.log(data);
-		switch(data.resultCode){
-		case "0000" :
-			break;
-		case "9999" :
-			break;
-		default :
-			break;
+		console.log("data:", data);
+		if(data.resultCode === "SUCCESS"){
+			alert(data.resultMessage);
+			window.location.replace('/login');
+		}else{
+			alert(data.resultMessage);
 		}
 	}).catch(function(error){
-		console.error(error);
-		alert("회원신청에 실패하였습니다.");
+		console.error("error:", error);
 	});
 }

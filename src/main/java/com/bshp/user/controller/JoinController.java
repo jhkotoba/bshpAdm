@@ -13,6 +13,7 @@ import org.springframework.web.reactive.result.view.Rendering;
 import org.springframework.web.server.WebSession;
 
 import com.bshp.common.constant.ResponseConstant;
+import com.bshp.common.util.ValidationUtil;
 import com.bshp.common.vo.ResponseVo;
 import com.bshp.user.exception.JoinException;
 import com.bshp.user.service.AdminService;
@@ -29,6 +30,9 @@ public class JoinController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private ValidationUtil validation;
 	
 	/**
 	 * 가입 페이지
@@ -69,6 +73,15 @@ public class JoinController {
 				if(isAdm) {
 					// 등록하려는 아이디가 존재함
 					return Mono.error(new JoinException(JoinException.reason.ID_ALREADY_EXIST));
+					
+				}else if(validation.isEmpty(join.getPhone()) == false || validation.isPhone(join.getPhone()) == false) {
+					// 전화번호 값이 비어있거나 정상적이지 않음 
+					return Mono.error(new JoinException(JoinException.reason.INCORRECT_PHONE));
+					
+				}else if(validation.isEmpty(join.getEmail()) == false || validation.isPhone(join.getEmail()) == false) {
+					// 이메일 값이 비어있거나 정상적이지 않음
+					return Mono.error(new JoinException(JoinException.reason.INCORRECT_EMAIL));
+					
 				}else {
 					// 등록 처리
 					return joinService.joinRequest(join);
@@ -78,7 +91,7 @@ public class JoinController {
 				if(rowUptCnt > 0) {
 					// 응답코드 메시지 세팅
 					responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
-					responseVo.setResultMessage(ResponseConstant.SUCCESS.name());
+					responseVo.setResultMessage(ResponseConstant.JOIN_SUCCESS.getMessage());
 					return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));					
 				}else {
 					// 등록실패
@@ -100,7 +113,7 @@ public class JoinController {
 				
 				// 응답코드 메시지 세팅
 				responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
-				responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
+				responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.getMessage());				
 				
 				// 시스템 오류
 				return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));

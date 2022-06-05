@@ -7,7 +7,13 @@ public class JoinException extends RuntimeException{
 	public enum reason {
 		
 		// 등록하려는 아이디가 존재함
-		ID_ALREADY_EXIST, 
+		ID_ALREADY_EXIST,
+		
+		// 잘못된 전화번호 
+		INCORRECT_PHONE,
+				
+		// 잘못된 이메일
+		INCORRECT_EMAIL,
 		
 		// 등록실패(INSERT)
 		INSERT_FAIL

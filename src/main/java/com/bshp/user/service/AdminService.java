@@ -24,23 +24,16 @@ public class AdminService {
 	 * @param join
 	 * @return
 	 */
-	public AdminRequestVo adminDecode(AdminRequestVo join){
+	public void adminDecode(AdminRequestVo join){
 		
 		// 관리자 아이디
 		String adminId = AES256Util.decode(join.getAdminId(), aes256.getPrivateKey());
 		// 관리자 패스워드
 		String password = AES256Util.decode(join.getPassword(), aes256.getPrivateKey());
 		
-//		// 인코더 생성
-//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-//		
-//		String encPassword = encoder.encode(password);
-		
 		// 복호화 데이터 세팅
 		join.setAdminId(adminId);
 		join.setPassword(password);
-		
-		return join;
 	}
 	
 	/**

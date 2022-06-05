@@ -10,7 +10,14 @@ import java.util.Random;
 
 
 public class CommonUtil {
-
+	
+	/**
+	 * Map객체 클래스 객체 변환
+	 * @param <T>
+	 * @param data
+	 * @param clazz
+	 * @return
+	 */
 	public static <T> T convertMapToVo(Map<String, Object> data, Class<T> clazz){
 		
 		T vo = null;
@@ -33,6 +40,11 @@ public class CommonUtil {
 		return vo;
 	}
 	
+	/**
+	 * 랜덤문자 생성
+	 * @param length
+	 * @return
+	 */
 	public static String getRandomString(int length){ 
 
         byte[] byteArray = new byte[256];
@@ -51,5 +63,7 @@ public class CommonUtil {
             } 
         } 
         return buffer.toString(); 
-    } 
+    }
+	
+	
 } 
