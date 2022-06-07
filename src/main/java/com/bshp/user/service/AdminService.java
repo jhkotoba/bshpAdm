@@ -51,15 +51,5 @@ public class AdminService {
 				return  Mono.defer(() -> Mono.just(false));
 			}
 		});
-	}
-	
-//	/**
-//	 * 
-//	 * @param adminId
-//	 * @return
-//	 */
-//	public boolean isAdmin(String adminId){
-//		return true;
-//	}
-	
+	}	
 }

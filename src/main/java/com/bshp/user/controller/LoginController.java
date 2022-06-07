@@ -24,12 +24,20 @@ import com.bshp.user.vo.LoginResponseVo;
 
 import reactor.core.publisher.Mono;
 
+/**
+ * 로그인 컨트롤러
+ * @author JeHoon
+ *
+ */
 @Controller
 public class LoginController {
 	
+	/**
+	 * 로그인 서비스
+	 */
 	@Autowired
 	private LoginService loginService;
-
+	
 	/**
 	 * 로그인 페이지
 	 * @return
@@ -44,8 +52,6 @@ public class LoginController {
 		return Mono.just(render);
 	}
 	
-
-	
 	/**
 	 * 로그인 처리
 	 * @param login
@@ -59,6 +65,7 @@ public class LoginController {
 			, ServerHttpResponse response, WebSession session){		
 		
 		return loginService.loginProcess(login)
+			
 			.flatMap(responseVo -> {
 				
 				// 세션정보 등록

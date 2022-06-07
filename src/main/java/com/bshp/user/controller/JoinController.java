@@ -31,9 +31,6 @@ public class JoinController {
 	@Autowired
 	private AdminService adminService;
 	
-	@Autowired
-	private ValidationUtil validation;
-	
 	/**
 	 * 가입 페이지
 	 * @return
@@ -74,15 +71,15 @@ public class JoinController {
 					// 등록하려는 아이디가 존재함
 					return Mono.error(new JoinException(JoinException.reason.ID_ALREADY_EXIST));
 					
-				}else if(validation.isEmpty(join.getPassword()) == false || validation.isPassword(join.getPassword()) == false) {
+				}else if(ValidationUtil.isEmpty(join.getPassword()) == false || ValidationUtil.isPassword(join.getPassword()) == false) {
 					// 비밀번호값이 비어있거나 정상적이지 않음
 					return Mono.error(new JoinException(JoinException.reason.INCORRECT_PASSWORD));
 				
-				}else if(validation.isEmpty(join.getPhone()) == false || validation.isPhone(join.getPhone()) == false) {
+				}else if(ValidationUtil.isEmpty(join.getPhone()) == false || ValidationUtil.isPhone(join.getPhone()) == false) {
 					// 전화번호 값이 비어있거나 정상적이지 않음 
 					return Mono.error(new JoinException(JoinException.reason.INCORRECT_PHONE));
 					
-				}else if(validation.isEmpty(join.getEmail()) == false || validation.isEmail(join.getEmail()) == false) {
+				}else if(ValidationUtil.isEmpty(join.getEmail()) == false || ValidationUtil.isEmail(join.getEmail()) == false) {
 					// 이메일 값이 비어있거나 정상적이지 않음
 					return Mono.error(new JoinException(JoinException.reason.INCORRECT_EMAIL));
 					
