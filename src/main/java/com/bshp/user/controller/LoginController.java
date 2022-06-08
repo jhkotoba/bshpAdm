@@ -25,6 +25,7 @@ import com.bshp.user.exception.LoginException;
 import com.bshp.user.service.LoginService;
 import com.bshp.user.vo.LoginRequestVo;
 import com.bshp.user.vo.LoginResponseVo;
+import com.bshp.user.vo.PublicAdminVo;
 
 import reactor.core.publisher.Mono;
 
@@ -95,12 +96,15 @@ public class LoginController {
 			// 세션 설정
 			.flatMap(tuple -> {
 				
+				// 공개전환
+				PublicAdminVo publicAdmin =  tuple.getT1().createPublicAdminVo();
+				
 				// 세션시작
 				session.start();
 				// 세션 시간설정 
 				session.setMaxIdleTime(Duration.ofHours(3));
 				// 세션 유저정보 저장
-				session.getAttributes().put("user", tuple.getT1().createPublicAdminVo());
+				session.getAttributes().put("user", publicAdmin);
 				// 세션 유저권한 저장
 				session.getAttributes().put("auth", tuple.getT2().stream().map(auth -> auth.getMenuNo()).collect(Collectors.toList()));
 				
@@ -111,6 +115,8 @@ public class LoginController {
 				response.addCookie(ResponseCookie.from("CSRF_TOKEN", newCsrfToken).maxAge(Duration.ofMinutes(30)).build());
 				
 				// 응답코드 메시지 세팅
+				responseVo.setLogin(true);
+				responseVo.setData(publicAdmin);
 				responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
 				responseVo.setResultMessage(ResponseConstant.SUCCESS.name());
 				
