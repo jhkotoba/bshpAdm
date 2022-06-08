@@ -12,6 +12,7 @@ import com.bshp.user.exception.LoginException;
 import com.bshp.user.repository.LoginRepository;
 import com.bshp.user.vo.LoginRequestVo;
 import com.bshp.user.vo.LoginResponseVo;
+import com.bshp.user.vo.PrivateAdminVo;
 
 import reactor.core.publisher.Mono;
 
@@ -21,8 +22,35 @@ public class LoginService {
 	@Autowired
 	private LoginRepository loginRepository;
 	
+	/**
+	 * 암복호화 객체
+	 */
+	@Deprecated
 	@Autowired
 	private AES256Properties aes256;
+	
+	/**
+	 * 로그인 체크 및 처리
+	 * @param adminId	관리자 아이디
+	 * @param password	관리자 패스워드
+	 * @return
+	 */
+	public Mono<PrivateAdminVo> loginProcess(String adminId, String password){
+		
+		return loginRepository.getLoginUser(adminId)
+			.flatMap(user -> {
+				// 인코더 생성
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+				
+				// 로그인 성공
+				if(encoder.matches(password, user.getPassword())) {
+					return Mono.defer(() -> Mono.just(user));
+				}else {
+					return Mono.error(new LoginException(LoginException.reason.PASSWORD_DIFFERENT));
+				}
+			});
+		
+	}
 	
 	/**
 	 * 로그인 체크 및 처리
@@ -30,7 +58,7 @@ public class LoginService {
 	 * @return
 	 * @throws NoSuchAlgorithmException 
 	 */
-	public Mono<LoginResponseVo> loginProcess(LoginRequestVo login){
+	public Mono<LoginResponseVo> old_loginProcess(LoginRequestVo login){
 		
 		// 관리자 아이디
 		String adminId = AES256Util.decode(login.getAdminId(), aes256.getPrivateKey());
@@ -50,7 +78,7 @@ public class LoginService {
 			if(encoder.matches(password, user.getPassword())) {
 				response.setPublicAdminVo(user, true);
 				return  Mono.defer(() -> Mono.just(response));
-			// 패스워드가 일치하지 않을 경우
+				// 패스워드가 일치하지 않을 경우
 			}else {
 				return Mono.error(new LoginException(LoginException.reason.PASSWORD_DIFFERENT));
 			}

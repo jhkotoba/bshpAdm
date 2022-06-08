@@ -13,6 +13,8 @@ import org.springframework.web.reactive.result.view.Rendering;
 import org.springframework.web.server.WebSession;
 
 import com.bshp.common.constant.ResponseConstant;
+import com.bshp.common.property.AES256Properties;
+import com.bshp.common.util.AES256Util;
 import com.bshp.common.util.ValidationUtil;
 import com.bshp.common.vo.ResponseVo;
 import com.bshp.user.exception.JoinException;
@@ -25,11 +27,23 @@ import reactor.core.publisher.Mono;
 @Controller
 public class JoinController {
 	
+	/**
+	 * 회원신청 서비스
+	 */
 	@Autowired
 	private JoinService joinService;	
 	
+	/**
+	 * 관리자 서비스
+	 */
 	@Autowired
 	private AdminService adminService;
+	
+	/**
+	 * 암복호화 객체
+	 */
+	@Autowired
+	private AES256Properties aes256;
 	
 	/**
 	 * 가입 페이지
@@ -59,9 +73,15 @@ public class JoinController {
 		
 		// 응답할 객체
 		ResponseVo<Void> responseVo = new ResponseVo<Void>();
+
+		// 관리자 아이디
+		String adminId = AES256Util.decode(join.getAdminId(), aes256.getPrivateKey());
+		// 관리자 패스워드
+		String password = AES256Util.decode(join.getPassword(), aes256.getPrivateKey());
 		
-		// 아이디, 암호 복호화
-		adminService.adminDecode(join);
+		// 복호화 데이터 세팅
+		join.setAdminId(adminId);
+		join.setPassword(password);
 		
 		// 아이디 체크
 		return adminService.isAdmin(join.getAdminId())

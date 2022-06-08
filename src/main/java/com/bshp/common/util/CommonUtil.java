@@ -27,7 +27,10 @@ public class CommonUtil {
 			
 			for (Field field : vo.getClass().getDeclaredFields()) {
 				field.setAccessible(true);
-				field.set(vo, data.get(field.getName().replaceAll("([a-z])([A-Z])", "$1_$2").toUpperCase()));
+				Object obj = data.get(field.getName().replaceAll("([a-z])([A-Z])", "$1_$2").toUpperCase());
+				if(obj != null) {
+					field.set(vo, obj);
+				}
 			}
 			
 		}catch(IllegalArgumentException | IllegalAccessException 
