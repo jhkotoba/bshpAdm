@@ -39,7 +39,7 @@ private final DatabaseClient client;
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ADMIN_NO, MENU_NO FROM AUTH WHERE ADMIN_NO = (SELECT ADMIN_NO FROM ADMIN WHERE ADMIN_ID = '").append(adminId).append("')");
-		System.out.println(sql.toString());
+		
 		return client.sql(() -> sql.toString()).fetch().all().map(auth -> CommonUtil.convertMapToVo(auth, AuthVo.class));
 	}
 }

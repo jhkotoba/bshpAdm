@@ -124,8 +124,6 @@ public class LoginController {
 				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
 			}).onErrorResume(LoginException.class, error -> {
 				
-				error.printStackTrace();
-				
 				// 응답코드 메시지 세팅
 				responseVo.setResultCode(error.getReason().name());
 				responseVo.setResultMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
@@ -133,8 +131,6 @@ public class LoginController {
 				// 응답
 				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
 			}).onErrorResume(error -> {
-				
-				error.printStackTrace();
 				
 				// 응답코드 메시지 세팅
 				responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
@@ -145,71 +141,71 @@ public class LoginController {
 			});
 	}
 	
-	/**
-	 * 로그인 처리
-	 * @param login
-	 * @param response
-	 * @param session
-	 * @return
-	 */
-	@ResponseBody
-	@PostMapping("/old/login/loginProcess")
-	public Mono<ResponseEntity<LoginResponseVo>> old_loginProcess(@RequestBody LoginRequestVo login
-			, ServerHttpResponse response, WebSession session){
-		
-		// 관리자 아이디
-		login.setAdminId(AES256Util.decode(login.getAdminId(), aes256.getPrivateKey()));
-		// 관리자 패스워드
-		login.setPassword(AES256Util.decode(login.getPassword(), aes256.getPrivateKey()));
-		
-		return loginService.old_loginProcess(login)
-			
-			.flatMap(responseVo -> {
-				
-				// 세션정보 등록
-				if(responseVo.isLogin()) {
-					// 세션시작
-					session.start();
-					// 세션 시간설정 
-					session.setMaxIdleTime(Duration.ofHours(3));
-					// 세션 유저정보 저장
-					session.getAttributes().put("user", responseVo.getData());
-					
-					// 토큰 생성
-					String newCsrfToken = CommonUtil.getRandomString(20);
-					// CSRF 발행
-					session.getAttributes().put("CSRF_TOKEN", newCsrfToken);
-					response.addCookie(ResponseCookie.from("CSRF_TOKEN", newCsrfToken).maxAge(Duration.ofMinutes(30)).build());
-				}
-				
-				// 응답코드 메시지 세팅
-				responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
-				responseVo.setResultMessage(ResponseConstant.SUCCESS.name());
-				
-				// 로그인 처리 응답
-				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
-			
-			}).onErrorResume(LoginException.class, error -> {
-				
-				LoginResponseVo responseVo = new LoginResponseVo();
-				
-				// 응답코드 메시지 세팅
-				responseVo.setResultCode(error.getReason().name());
-				responseVo.setResultMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
-				
-				// 응답
-				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
-			}).onErrorResume(error -> {
-				
-				LoginResponseVo responseVo = new LoginResponseVo();
-				
-				// 응답코드 메시지 세팅
-				responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
-				responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
-				
-				// 시스템 오류
-				return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));
-			});
-	}
+//	/**
+//	 * 로그인 처리
+//	 * @param login
+//	 * @param response
+//	 * @param session
+//	 * @return
+//	 */
+//	@ResponseBody
+//	@PostMapping("/old/login/loginProcess")
+//	public Mono<ResponseEntity<LoginResponseVo>> old_loginProcess(@RequestBody LoginRequestVo login
+//			, ServerHttpResponse response, WebSession session){
+//		
+//		// 관리자 아이디
+//		login.setAdminId(AES256Util.decode(login.getAdminId(), aes256.getPrivateKey()));
+//		// 관리자 패스워드
+//		login.setPassword(AES256Util.decode(login.getPassword(), aes256.getPrivateKey()));
+//		
+//		return loginService.old_loginProcess(login)
+//			
+//			.flatMap(responseVo -> {
+//				
+//				// 세션정보 등록
+//				if(responseVo.isLogin()) {
+//					// 세션시작
+//					session.start();
+//					// 세션 시간설정 
+//					session.setMaxIdleTime(Duration.ofHours(3));
+//					// 세션 유저정보 저장
+//					session.getAttributes().put("user", responseVo.getData());
+//					
+//					// 토큰 생성
+//					String newCsrfToken = CommonUtil.getRandomString(20);
+//					// CSRF 발행
+//					session.getAttributes().put("CSRF_TOKEN", newCsrfToken);
+//					response.addCookie(ResponseCookie.from("CSRF_TOKEN", newCsrfToken).maxAge(Duration.ofMinutes(30)).build());
+//				}
+//				
+//				// 응답코드 메시지 세팅
+//				responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
+//				responseVo.setResultMessage(ResponseConstant.SUCCESS.name());
+//				
+//				// 로그인 처리 응답
+//				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
+//			
+//			}).onErrorResume(LoginException.class, error -> {
+//				
+//				LoginResponseVo responseVo = new LoginResponseVo();
+//				
+//				// 응답코드 메시지 세팅
+//				responseVo.setResultCode(error.getReason().name());
+//				responseVo.setResultMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
+//				
+//				// 응답
+//				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
+//			}).onErrorResume(error -> {
+//				
+//				LoginResponseVo responseVo = new LoginResponseVo();
+//				
+//				// 응답코드 메시지 세팅
+//				responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
+//				responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
+//				
+//				// 시스템 오류
+//				return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));
+//			});
+//	}
 	
 }

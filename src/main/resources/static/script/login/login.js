@@ -16,20 +16,31 @@ window.addEventListener('DOMContentLoaded', function(){
 /**
  * 로그인 처리
  */
-function loginProcess(){
+async function loginProcess(){
 	let adminId = crypt.encrypt(document.getElementById("adminId").value);
 	let password = crypt.encrypt(document.getElementById("password").value);
 	
-	postFetch({
-		url: '/login/loginProcess',
-		body: {adminId, password}
-	}).then(data => {
-		if(data.resultCode == 'SUCCESS'){
-			window.location.href = "/";	
-		}else{
-			alert(data.resultMessage);
-		}
-	}).catch(function(error){
-		console.error(error);
-	});
+	// 로그인 처리
+	let loginRes = await postFetch({url: '/login/loginProcess', body: {adminId, password}});
+	if(loginRes.resultCode !== 'SUCCESS'){
+		alert(loginRes.resultMessage);
+		return false;
+	}
+	
+	// 사용자 메뉴조회
+	let menuRes = await postFetch({url: '/system/getAdminMenuList', body: {}});
+	if(menuRes.resultCode !== 'SUCCESS'){
+		alert(menuRes.resultMessage);
+		return false;
+	}
+	
+	// 메뉴 스토로지에 저장
+	createAside(menuRes.data);
+	
+	// 메인 페이지 이동
+	window.location.href = "/";
+}
+
+function createAside(menuList){
+	console.log('createAside menuList', menuList);	
 }
