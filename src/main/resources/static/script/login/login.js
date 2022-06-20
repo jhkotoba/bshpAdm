@@ -1,5 +1,6 @@
 import { constant } from "/static/script/common/constant.js";
 import { postFetch } from "/static/script/common/fetchUtil.js";
+import { createAside } from "/static/script/common/functionUtil.js";
 
 // 암호화 객체 생성
 const crypt = new JSEncrypt();
@@ -38,9 +39,5 @@ async function loginProcess(){
 	createAside(menuRes.data);
 	
 	// 메인 페이지 이동
-	window.location.href = "/";
-}
-
-function createAside(menuList){
-	console.log('createAside menuList', menuList);	
+	//window.location.href = "/";
 }
