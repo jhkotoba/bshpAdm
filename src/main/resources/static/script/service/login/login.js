@@ -38,7 +38,7 @@ async function loginProcess(){
 	// 세션스토로지 초기화
 	sessionStorage.removeItem("asideMenu");	
 	// 메뉴 태그 생성, 세션스토로지 저장
-	sessionStorage.setItem("asideMenu", JSON.stringify(createAsideMenu(menuRes.data)));
+	sessionStorage.setItem("asideMenu", createAsideMenu(menuRes.data));
 	
 	// 메인 페이지 이동
 	window.location.href = "/";
