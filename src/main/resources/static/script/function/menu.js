@@ -2,24 +2,43 @@
  */
 export const createAsideMenu = menuList => {
 	
-	let menu = document.createElement('div');
-	let ul = document.createElement('ul');
+	let levelList = [...new Set(menuList.map(menu => menu.menuLv))].sort();
+	let maxlevel = levelList[levelList.length-1];
 	
-	menuList.sort((a, b) => {		
-	    if(a.menuLv < b.menuLv) return -1;
-	    if(a.menuLv > b.menuLv) return 1;
-	    if(a.menuSeq < b.menuSeq) return -1;
-	    if(a.menuSeq > b.menuSeq) return 1;
-	}).forEach((menu, index) => {
-		let prev = menuList[index-1];
-		let next = menuList[index+1];
-		
-		let li = document.createElement('li');
-		li.textContent = menu.menuNm;
-		ul.appendChild(li);
-		
-	});
+	// 메뉴 레벨별 순서별 정렬
+	let resultList = null;
+	for(let i=0; i<maxlevel; i++){
+		if(i === 0){
+			 resultList = menuList.filter(menu => menu.menuLv === (i+1))
+			 	.sort((a, b) => a.menuSeq - b.menuSeq)
+		}else{
+			menuList.filter(menu => menu.menuLv === (i+1))
+				.forEach(menu => {
+					for(let j=0; j<resultList.length; j++){
+						if(resultList[j].menuNo == menu.groupNo){
+							resultList.splice((j+1), 0, menu);
+						}
+					}
+				});
+		}		
+	}
 	
-	menu.appendChild(ul);
-	return menu.innerHTML;
+	// 메뉴 태그 생성
+	let html = '<ul>';
+	for(let i=0; i<resultList.length; i++){
+		html += '<li>' + resultList[i].menuNm;
+		
+		if(resultList[i].menuLv != resultList[i+1]?.menuLv){
+			if(resultList[i].menuLv < resultList[i+1]?.menuLv){
+				html += '<ul>';
+			}else{
+				html += '</ul>';
+			}
+		}
+		
+		html += '</li>';	
+	}
+	
+	return html + '</ul>';
 }
+
