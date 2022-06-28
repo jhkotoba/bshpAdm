@@ -26,19 +26,28 @@ export const createAsideMenu = menuList => {
 	// 메뉴 태그 생성
 	let html = '<ul>';
 	for(let i=0; i<resultList.length; i++){
+		
+		let item = resultList[i];
+		let next = resultList[i+1];
+		
 		html += '<li>' + resultList[i].menuNm;
 		
-		if(resultList[i].menuLv != resultList[i+1]?.menuLv){
-			if(resultList[i].menuLv < resultList[i+1]?.menuLv){
+		if(item.menuLv != next?.menuLv){
+			if(item.menuLv < next?.menuLv){
 				html += '<ul>';
 			}else{
-				html += '</ul>';
+				html += '</li></ul>';
+				if(next == undefined){
+					html += '</li>';
+				}else if(item.menuLv > next.menuLv){
+					html += '</li>';
+				}
 			}
-		}
-		
-		html += '</li>';	
+		}else{
+			html += '</li>';
+		}	
 	}
-	
-	return html + '</ul>';
+	html += '</ul>';
+	return html;
 }
 
