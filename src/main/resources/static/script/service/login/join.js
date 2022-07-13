@@ -45,8 +45,7 @@ function joinValidation(params){
 	}
 	
 	// 비밀번호 확인
-	let confirm = document.getElementById("confirm").value;
-	if(params.password !== confirm){
+	if(params.password !== params.confirm){
 		alert("비밀번호가 일치하지 않습니다.");
 		document.getElementById("password").focus();
 		return false;	
@@ -83,10 +82,11 @@ function joinRequest(){
 	
 	// 전송할 파라미터
 	let params = {
-		adminId : document.getElementById("adminId").value,
-		password : document.getElementById("password").value,
-		phone : document.getElementById("phone").value,
-		email : document.getElementById("email").value
+		adminId: document.getElementById("adminId").value,
+		password: document.getElementById("password").value,
+		confirm: document.getElementById("confirm").value,
+		phone: document.getElementById("phone").value,
+		email: document.getElementById("email").value
 	}
 	
 	// 유효성 검사
@@ -107,10 +107,10 @@ function joinRequest(){
 	}).then(data => {
 		console.log("data:", data);
 		if(data.resultCode === "SUCCESS"){
-			alert(data.resultMessage);
+			alert(data.message);
 			window.location.replace('/login');
 		}else{
-			alert(data.resultMessage);
+			alert(data.message);
 		}
 	}).catch(function(error){
 		console.error("error:", error);

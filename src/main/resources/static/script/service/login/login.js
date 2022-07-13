@@ -24,14 +24,14 @@ async function loginProcess(){
 	// 로그인 처리
 	let loginRes = await postFetch({url: '/login/loginProcess', body: {adminId, password}});
 	if(loginRes.resultCode !== 'SUCCESS'){
-		alert(loginRes.resultMessage);
+		alert(loginRes.message);
 		return false;
 	}
 	
 	// 사용자 메뉴조회
 	let menuRes = await postFetch({url: '/system/getAdminMenuList', body: {}});
 	if(menuRes.resultCode !== 'SUCCESS'){
-		alert(menuRes.resultMessage);
+		alert(menuRes.message);
 		return false;
 	}
 	

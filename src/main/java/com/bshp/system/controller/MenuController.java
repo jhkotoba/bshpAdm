@@ -62,7 +62,7 @@ public class MenuController {
 			// 사용자 메뉴목록 세팅
 			responseVo.setData(adminMenuList);
 			responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
-			responseVo.setResultMessage(ResponseConstant.SUCCESS.name());
+			responseVo.setMessage(ResponseConstant.SUCCESS.name());
 			
 			return Mono.just(ResponseEntity.ok().body(responseVo));
 			
@@ -70,7 +70,7 @@ public class MenuController {
 			
 			// 응답코드 메시지 세팅
 			responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
-			responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
+			responseVo.setMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
 			
 			// 시스템 오류
 			return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));

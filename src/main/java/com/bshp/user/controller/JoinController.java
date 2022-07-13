@@ -112,7 +112,7 @@ public class JoinController {
 				if(rowUptCnt > 0) {
 					// 응답코드 메시지 세팅
 					responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
-					responseVo.setResultMessage(ResponseConstant.JOIN_SUCCESS.getMessage());
+					responseVo.setMessage(ResponseConstant.JOIN_SUCCESS.getMessage());
 					return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));					
 				}else {
 					// 등록실패
@@ -124,7 +124,7 @@ public class JoinController {
 				
 				// 응답코드 메시지 세팅
 				responseVo.setResultCode(error.getReason().name());
-				responseVo.setResultMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
+				responseVo.setMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
 				
 				// 응답
 				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
@@ -134,7 +134,7 @@ public class JoinController {
 				
 				// 응답코드 메시지 세팅
 				responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
-				responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.getMessage());				
+				responseVo.setMessage(ResponseConstant.INTERNAL_SERVER_ERROR.getMessage());				
 				
 				// 시스템 오류
 				return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));

@@ -4,7 +4,7 @@ public class ResponseVo<T> {
 
 	private String resultCode;
 	
-	private String resultMessage;
+	private String message;
 	
 	protected T data;
 
@@ -16,12 +16,12 @@ public class ResponseVo<T> {
 		this.resultCode = resultCode;
 	}
 
-	public String getResultMessage() {
-		return resultMessage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setResultMessage(String resultMessage) {
-		this.resultMessage = resultMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public T getData() {

@@ -118,7 +118,7 @@ public class LoginController {
 				responseVo.setLogin(true);
 				responseVo.setData(publicAdmin);
 				responseVo.setResultCode(ResponseConstant.SUCCESS.toString());
-				responseVo.setResultMessage(ResponseConstant.SUCCESS.name());
+				responseVo.setMessage(ResponseConstant.SUCCESS.name());
 				
 				// 로그인 처리 응답
 				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
@@ -126,7 +126,7 @@ public class LoginController {
 				
 				// 응답코드 메시지 세팅
 				responseVo.setResultCode(error.getReason().name());
-				responseVo.setResultMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
+				responseVo.setMessage(ResponseConstant.valueOf(error.getReason().name()).getMessage());
 				
 				// 응답
 				return Mono.defer(() -> Mono.just(ResponseEntity.ok().body(responseVo)));
@@ -134,7 +134,7 @@ public class LoginController {
 				
 				// 응답코드 메시지 세팅
 				responseVo.setResultCode(ResponseConstant.INTERNAL_SERVER_ERROR.toString());
-				responseVo.setResultMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
+				responseVo.setMessage(ResponseConstant.INTERNAL_SERVER_ERROR.name());
 				
 				// 시스템 오류
 				return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVo));
